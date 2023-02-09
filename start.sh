@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "pod started"
 export PYTHONUNBUFFERED=1
-
+export GPG_TTY=$(tty)
 
 if [ ! -f /workspace/local_ckpts ]; then
     echo "Checkpoint folder not found, creating"
