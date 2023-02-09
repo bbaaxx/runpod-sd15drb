@@ -32,7 +32,6 @@ RUN useradd -m  -s /bin/zsh ubuntu
 RUN usermod -aG sudo ubuntu && echo "ubuntu ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ubuntu
 RUN chmod 044 /etc/sudoers.d/ubuntu
 
-RUN adduser --disabled-password --gecos '' ubuntu
 RUN chown ubuntu:ubuntu /start.sh
 RUN mkdir -p /workspace
 RUN chown -R ubuntu /workspace
