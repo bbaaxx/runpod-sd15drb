@@ -15,8 +15,6 @@ RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends\
     tzdata net-tools vim man file
 
-RUN yes| unminimize
-
 RUN apt-get install --yes --no-install-recommends\
     wget curl git git-lfs  gpg zsh \
     libgl1 libglib2.0-0 python3-pip python-is-python3 python3-venv \
