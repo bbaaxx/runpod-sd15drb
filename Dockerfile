@@ -13,7 +13,7 @@ ENV TZ America/Mexico_City
 RUN apt-get update --yes && \
     apt-get upgrade --yes && \
     apt-get install --yes --no-install-recommends\
-    tzdata net-tools vim man file
+    tzdata net-tools vim man file sudo
 
 RUN apt-get install --yes --no-install-recommends\
     wget curl git git-lfs  gpg zsh \
