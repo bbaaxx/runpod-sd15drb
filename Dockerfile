@@ -59,7 +59,7 @@ RUN git clone https://github.com/camenduru/sd-webui-additional-networks /workspa
 
 # copy also configs here
 
-ADD https://huggingface.co/ckpt/sd15/resolve/main/v1-5-pruned-emaonly.ckpt /workspace/stable-diffusion-webui/models/Stable-diffusion/v1-5-pruned-emaonly.ckpt
+# ADD https://huggingface.co/ckpt/sd15/resolve/main/v1-5-pruned-emaonly.ckpt /workspace/stable-diffusion-webui/models/Stable-diffusion/v1-5-pruned-emaonly.ckpt
 # add also other models here
 
 
