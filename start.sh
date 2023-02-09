@@ -1,9 +1,18 @@
 #!/bin/bash
 echo "pod started"
 export PYTHONUNBUFFERED=1
-# source /workspace/venv/bin/activate
-# cd /workspace/stable-diffusion-webui
-# python relauncher.py &
+
+
+if [ ! -f /workspace/local_ckpts ]; then
+    echo "Checkpoint folder not found, creating"
+    mkdir -p /workspace/local_ckpts
+    ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-diffusion/
+    wget https://huggingface.co/ckpt/sd15/resolve/main/v1-5-pruned-emaonly.ckpt -O /workspace/local_ckpts/v1-5-pruned-emaonly.ckpt
+fi
+
+source /workspace/venv/bin/activate
+cd /workspace/stable-diffusion-webui
+python relauncher.py &
 
 if [[ $PUBLIC_KEY ]]
 then
