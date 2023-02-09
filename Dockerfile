@@ -39,7 +39,7 @@ RUN chmod -R 777 /workspace
 WORKDIR /workspace
 USER poduser
 
-RUN python -m venv /workspace/venv
+# RUN python -m venv /workspace/venv
 
 RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /workspace/stable-diffusion-webui
 COPY webui-user.template /workspace/stable-diffusion-webui/webui-user.sh
