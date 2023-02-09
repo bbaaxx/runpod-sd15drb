@@ -2,17 +2,23 @@
 # ARG BASE_IMAGE=tensorflow/tensorflow:latest-gpu
 # ARG BASE_IMAGE=nvidia/cuda:11.7.1-cudnn8-devel-ubuntu22.04
 ARG BASE_IMAGE=nvidia/cuda:11.7.1-cudnn8-devel-ubuntu22.04
+
 FROM ${BASE_IMAGE} as dev-base
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-ENV DEBIAN_FRONTEND noninteractive\
-    SHELL=/bin/bash
-RUN yes| unminimize
+ENV DEBIAN_FRONTEND noninteractive
+ENV SHELL=/bin/bash
+ENV TZ America/Mexico_City
 
 RUN apt-get update --yes && \
     apt-get upgrade --yes && \
-    apt install --yes --no-install-recommends\
-    wget curl git git-lfs vim gpg zsh \
+    apt-get install --yes --no-install-recommends\
+    tzdata net-tools vim man file
+
+RUN yes| unminimize
+
+RUN apt-get install --yes --no-install-recommends\
+    wget curl git git-lfs  gpg zsh \
     libgl1 libglib2.0-0 python3-pip python-is-python3 python3-venv \
     openssh-server &&\
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
@@ -24,7 +30,7 @@ RUN apt-get update --yes && \
 ADD start.sh /
 RUN chmod +x /start.sh
 
-RUN useradd -m  -s /bin/bash ubuntu
+RUN useradd -m  -s /bin/zsh ubuntu
 RUN usermod -aG sudo ubuntu && echo "ubuntu ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ubuntu
 RUN chmod 044 /etc/sudoers.d/ubuntu
 
