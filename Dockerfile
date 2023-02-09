@@ -34,7 +34,7 @@ RUN chmod 044 /etc/sudoers.d/ubuntu
 
 RUN chown ubuntu:ubuntu /start.sh
 RUN mkdir -p /workspace
-RUN chown -R ubuntu /workspace
+RUN chown -R ubuntu:ubuntu /workspace
 RUN chmod -R 777 /workspace
 
 WORKDIR /workspace
@@ -50,17 +50,17 @@ RUN sed -i -e 's/    start()/    #start()/g' /workspace/stable-diffusion-webui/l
     cd stable-diffusion-webui && ./webui.sh --skip-torch-cuda-test && \
     sed -i -e 's/    #start()/    start()/g' /workspace/stable-diffusion-webui/launch.py
 
-# RUN git clone https://github.com/camenduru/deforum-for-automatic1111-webui /workspace/stable-diffusion-webui/extensions/deforum-for-automatic1111-webui
-# RUN git clone https://github.com/d8ahazard/sd_dreambooth_extension.git /workspace/stable-diffusion-webui/extensions/sd_dreambooth_extension
+RUN git clone https://github.com/camenduru/deforum-for-automatic1111-webui /workspace/stable-diffusion-webui/extensions/deforum-for-automatic1111-webui
+RUN git clone https://github.com/d8ahazard/sd_dreambooth_extension.git /workspace/stable-diffusion-webui/extensions/sd_dreambooth_extension
 RUN git clone https://github.com/yfszzx/stable-diffusion-webui-images-browser /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-images-browser
 # RUN git clone https://github.com/camenduru/stable-diffusion-webui-huggingface /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-huggingface
 RUN git clone https://github.com/camenduru/sd-civitai-browser /workspace/stable-diffusion-webui/extensions/sd-civitai-browser
-# RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui-promptgen.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-promptgen
+RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui-promptgen.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-promptgen
 RUN git clone https://github.com/camenduru/sd-webui-additional-networks /workspace/stable-diffusion-webui/extensions/sd-webui-additional-networks
 
 # copy also configs here
 
-# ADD https://huggingface.co/ckpt/sd15/resolve/main/v1-5-pruned-emaonly.ckpt /workspace/stable-diffusion-webui/models/Stable-diffusion/v1-5-pruned-emaonly.ckpt
+ADD https://huggingface.co/ckpt/sd15/resolve/main/v1-5-pruned-emaonly.ckpt /workspace/stable-diffusion-webui/models/Stable-diffusion/v1-5-pruned-emaonly.ckpt
 # add also other models here
 
 
