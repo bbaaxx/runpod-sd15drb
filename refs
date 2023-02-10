@@ -17,7 +17,7 @@ wget -O stable-diffusion-webui/models/Stable-diffusion/v2-1_512-ema-pruned.yaml 
 
 ## Models
 
-# wget https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.ckpt -O /workspace/stable-diffusion-webui/models/Stable-diffusion
+# wget https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.ckpt -O /workspace/stable-diffusion-webui/models/Stable-diffusion/v1-5-pruned.ckpt
 
 # wget https://huggingface.co/ckpt/sd15/resolve/main/v1-5-pruned-emaonly.ckpt -O /workspace/stable-diffusion-webui/models/Stable-diffusion/v1-5-pruned-emaonly.ckpt
 

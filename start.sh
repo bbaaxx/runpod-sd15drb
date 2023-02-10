@@ -3,7 +3,7 @@ echo "pod started"
 export PYTHONUNBUFFERED=1
 export GPG_TTY=$(tty)
 
-if [ ! -f /workspace/local_ckpts ]; then
+if [ ! -d /workspace/local_ckpts ]; then
     echo "Checkpoint folder not found, creating"
     mkdir -p /workspace/local_ckpts
     ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-diffusion/
@@ -12,7 +12,7 @@ fi
 
 source /workspace/venv/bin/activate
 cd /workspace/stable-diffusion-webui
-python relauncher.py &
+python relauncher.py > /workspace/exec_log &
 
 if [[ $PUBLIC_KEY ]]
 then

@@ -10,7 +10,7 @@ install_dir="/workspace"
 #clone_dir="stable-diffusion-webui"
 
 # Commandline arguments for webui.py, for example: export COMMANDLINE_ARGS="--medvram --opt-split-attention"
-export COMMANDLINE_ARGS="--port 4206 --xformers --listen --enable-insecure-extension-access"
+export COMMANDLINE_ARGS="--port 4206 --xformers --listen --enable-insecure-extension-access --gradio-auth dragon:ballz --disable-console-progressbars"
 
 # python3 executable
 #python_cmd="python3"
@@ -45,3 +45,6 @@ venv_dir="/workspace/venv"
 
 ###########################################
 
+export REQS_FILE="./extensions/sd_dreambooth_extension/requirements.txt"
+# Uncomment to skip auto-install on run.
+# export DREAMBOOTH_SKIP_INSTALL=True
