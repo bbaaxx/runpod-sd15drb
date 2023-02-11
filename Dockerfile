@@ -34,9 +34,11 @@ RUN chown ubuntu:ubuntu /start.sh
 RUN mkdir -p /workspace
 # RUN chmod -R 777 /workspace
 RUN chown -R ubuntu:ubuntu /workspace
-RUN chown -R ubuntu:ubuntu /sdui
 
-# RUN chmod -R 777 /sdui
+RUN mkdir -p /sdui
+RUN chown -R ubuntu:ubuntu /sdui
+RUN chmod -R 777 /sdui
+
 WORKDIR /sdui
 USER ubuntu
 
