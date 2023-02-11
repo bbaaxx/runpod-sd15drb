@@ -58,7 +58,7 @@ RUN sed -i -e 's/    start()/    #start()/g' /sdui/stable-diffusion-webui/launch
     cd stable-diffusion-webui && ./webui.sh --skip-torch-cuda-test && \
     sed -i -e 's/    #start()/    start()/g' /sdui/stable-diffusion-webui/launch.py
 
-RUN chown -R ubuntu:ubuntu /sdui
+RUN sudo chown -R ubuntu:ubuntu /sdui
 RUN ln -s /sdui/stable-diffusion-webui /workspace
 
 CMD [ "/start.sh" ]
