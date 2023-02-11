@@ -9,10 +9,21 @@ if [ ! -d /workspace/local_ckpts ]; then
     ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-diffusion/
     wget https://huggingface.co/ckpt/sd15/resolve/main/v1-5-pruned-emaonly.ckpt -O /workspace/local_ckpts/v1-5-pruned-emaonly.ckpt
 fi
+if [ ! -f /sdui/switch.off ]; then
+    echo "Switch.off flag not found Launching WebUI"
+    if [[ $WEBUI == "invoke"  ]]; then
+        echo "launching InvokeAi"
+        source /sdui/invoke/.venv/bin/activate
+        cd /sdui/invoke
+        python relauncher-invoke.py &
+    else
+        echo "Launching A111 webui"
+        source /workspace/venv/bin/activate
+        cd /sdui/stable-diffusion-webui
+        python relauncher.py &
+    fi
+fi
 
-source /workspace/venv/bin/activate
-cd /workspace/stable-diffusion-webui
-python relauncher.py &
 
 if [[ $PUBLIC_KEY ]]
 then
