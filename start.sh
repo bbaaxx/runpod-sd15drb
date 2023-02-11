@@ -12,7 +12,7 @@ fi
 
 source /workspace/venv/bin/activate
 cd /workspace/stable-diffusion-webui
-python relauncher.py > /workspace/exec_log &
+python relauncher.py &
 
 if [[ $PUBLIC_KEY ]]
 then
