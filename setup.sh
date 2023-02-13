@@ -1,6 +1,5 @@
 !#/bin/bash
 echo "pod started"
-export PYTHONUNBUFFERED=1
 
 # Install packages
 apt-get update --yes && apt-get upgrade --yes && \
@@ -16,11 +15,7 @@ apt-get clean && rm -rf /var/lib/apt/lists/* && echo "en_US.UTF-8 UTF-8" > /etc/
 pip install --upgrade pip && \
 pip install jupyterlab && \
 pip install ipywidgets
-jupyter labextension install @jupyter-widgets/jupyterlab-manager
-jupyter labextension install @jupyterlab/toc
-jupyter labextension install @jupyterlab/git
-jupyter serverextension enable --py jupyterlab_git
-jupyter labextension install @jupyterlab/xkcd-extension
+
 
 # Create directories
 mkdir -p /workspace/local_ckpts # Mount point for checkpoints (on transient storage)
