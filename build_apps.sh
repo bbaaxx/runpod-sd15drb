@@ -15,6 +15,7 @@ cd /sdui/invoke
 python -m venv .venv --prompt InvokeAI 
 source .venv/bin/activate 
 pip install InvokeAI[xformers] --use-pep517 --extra-index-url https://download.pytorch.org/whl/cu117
+deactivate
 
 # Install WebUI
 git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /sdui/stable-diffusion-webui
