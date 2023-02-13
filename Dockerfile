@@ -3,7 +3,7 @@
 ARG BASE_IMAGE=nvidia/cuda:11.7.1-cudnn8-devel-ubuntu22.04
 
 FROM ${BASE_IMAGE} as build-base
-ADD build_apps.sd /
+ADD build_apps.sh /
 RUN chmod +x /build_apps.sh && /build_apps.sh
 
 FROM ${BASE_IMAGE} as dev-base
