@@ -9,12 +9,10 @@ sudo apt-get update --yes && apt-get upgrade --yes  &&  apt-get install --yes \
     
 sudo apt-get clean && rm -rf /var/lib/apt/lists/* && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 
-
-
-
 # Create directories
 mkdir -p /workspace/local_ckpts # Mount point for checkpoints (on transient storage)
 mkdir -p /sdui/outputs # Mount point for outputs (on persistent storage)
+
 
 # make symbolic links
 ln -s /sdui/invoke /workspace
@@ -23,6 +21,12 @@ ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-dif
 ln -s /workspace/local_ckpts /workspace/invoke/models/InvokeAI/
 ln -s /workspace/stable-diffusion-webui/outputs /sdui/outputs/webui
 ln -s /workspace/invoke/outputs /sdui/outputs/invoke
+
+# Set permissions
+chown -R poduser:poduser /workspace
+chown -R poduser:poduser /sdui
+chown poduser:poduser /start.sh
+chmod +x /start.sh
 
 # Install JupyterLab as the user poduser
 su - poduser -c "cd /home/poduser && \
