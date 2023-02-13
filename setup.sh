@@ -2,7 +2,7 @@
 echo "pod started"
 
 # Install packages
-apt-get update --yes && apt-get upgrade --yes && \
+apt-get update --yes && apt-get upgrade --yes  \
     # tools for minimized images
     tzdata net-tools vim man file sudo \
     # basic tools
