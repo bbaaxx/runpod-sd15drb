@@ -2,7 +2,7 @@
 echo "Starting To Build Dependencies"
 
 # Install packages
-apt-get update --yes && apt-get upgrade --yes && \
+apt-get update --yes && apt-get upgrade --yes \
     wget curl git  \
     # python tools
     libgl1 libglib2.0-0 python3-pip python-is-python3 python3-venv
