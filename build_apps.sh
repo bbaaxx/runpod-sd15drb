@@ -33,8 +33,7 @@ git clone https://github.com/deforum-art/deforum-for-automatic1111-webui.git
 git clone https://github.com/camenduru/sd-webui-additional-networks
 ### Install dreambooth extension
 git clone https://github.com/d8ahazard/sd_dreambooth_extension.git
-cd /sdui/stable-diffusion-webui/extensions/sd_dreambooth_extension
-pip install -r requirements.txt
+pip install -r /sdui/stable-diffusion-webui/extensions/sd_dreambooth_extension/requirements.txt
 
 # chmod -R 777 /sdui
 
