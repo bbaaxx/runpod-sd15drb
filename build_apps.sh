@@ -2,10 +2,8 @@
 echo "Starting To Build Dependencies"
 
 # Install packages
-apt-get update --yes && apt-get upgrade --yes \
-    wget curl git  \
-    # python tools
-    libgl1 libglib2.0-0 python3-pip python-is-python3 python3-venv
+apt-get update --yes && apt-get upgrade --yes && \ 
+    apt-get install --yes wget curl git libgl1 libglib2.0-0 python3-pip python-is-python3 python3-venv
 apt-get clean && rm -rf /var/lib/apt/lists/* && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 
 # Create Mount point (on persistent storage)

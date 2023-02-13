@@ -2,13 +2,11 @@
 echo "pod started"
 
 # Install packages
-apt-get update --yes && apt-get upgrade --yes  \
-    # tools for minimized images
+apt-get update --yes && apt-get upgrade --yes  &&  apt-get install --yes \
     tzdata net-tools vim man file sudo \
-    # basic tools
     wget curl git git-lfs tmux gpg zsh openssh-server \
-    # python tools
     libgl1 libglib2.0-0 python3-pip python-is-python3 python3-venv
+    
 apt-get clean && rm -rf /var/lib/apt/lists/* && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 
 # Install JupyterLab as Root
