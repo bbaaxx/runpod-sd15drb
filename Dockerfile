@@ -1,6 +1,6 @@
 
 # ARG BASE_IMAGE=tensorflow/tensorflow:latest-gpu
-ARG BASE_IMAGE=nvidia/cuda:11.7.1-cudnn8-devel-poduser22.04
+ARG BASE_IMAGE=nvidia/cuda:11.7.1-cudnn8-devel-ubuntu22.04
 
 FROM ${BASE_IMAGE} as build-base
 ADD build_apps.sd /
