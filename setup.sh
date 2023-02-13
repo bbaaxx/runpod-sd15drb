@@ -9,15 +9,7 @@ sudo apt-get update --yes && apt-get upgrade --yes  &&  apt-get install --yes \
     
 sudo apt-get clean && rm -rf /var/lib/apt/lists/* && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 
-# Install JupyterLab as Root
-pip install --upgrade pip && \
-pip install jupyterlab && \
-pip install ipywidgets
-jupyter labextension install @jupyter-widgets/jupyterlab-manager
-jupyter labextension install @jupyterlab/toc
-jupyter labextension install @jupyterlab/git
-jupyter serverextension enable --py jupyterlab_git
-jupyter labextension install @jupyterlab/xkcd-extension
+
 
 
 # Create directories
@@ -32,7 +24,20 @@ ln -s /workspace/local_ckpts /workspace/invoke/models/InvokeAI/
 ln -s /workspace/stable-diffusion-webui/outputs /sdui/outputs/webui
 ln -s /workspace/invoke/outputs /sdui/outputs/invoke
 
-# chmod -R 777 /sdui
-# chmod -R 777 /workspace
+# Install JupyterLab as the user poduser
+su - poduser -c "cd /home/poduser && \
+    python -m venv /workspace/jupyter/.venv --prompt JupyterLab && \
+    source /workspace/jupyter/.venv/bin/activate && \
+    pip install --upgrade pip && \
+    pip install jupyterlab && \
+    pip install ipywidgets && \
+    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
+    jupyter labextension install @jupyterlab/toc && \
+    jupyter labextension install @jupyterlab/git && \
+    jupyter serverextension enable --py jupyterlab_git && \
+    jupyter labextension install @jupyterlab/xkcd-extension && \
+    deactivate"
+
+
 
 

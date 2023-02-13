@@ -16,8 +16,10 @@ fi
 if [[ $JUPYTER_PASSWORD ]]
 then
     cd /
+    source /workspace/jupyter/.venv/bin/activate
     jupyter lab --allow-root --no-browser --port=8888 --ip=* --ServerApp.terminado_settings='{"shell_command":["/bin/bash"]}' --ServerApp.token=$JUPYTER_PASSWORD --ServerApp.allow_origin=* --ServerApp.preferred_dir=/workspace
     echo "Jupyter Lab Started"
+    deactivate
 fi
 
 if [ ! -f /sdui/switch.off ]; then
