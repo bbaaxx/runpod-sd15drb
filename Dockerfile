@@ -6,8 +6,8 @@ FROM ${BASE_IMAGE} as build-base
 ADD build_apps.sh /
 RUN chmod +x /build_apps.sh && /build_apps.sh
 
-# FROM ${BASE_IMAGE} as run-base
-# COPY --from=build-base /sdui /
+FROM ${BASE_IMAGE} as run-base
+COPY --from=build-base /sdui /
 ADD webui-user.template /sdui/stable-diffusion-webui/webui-user.sh
 ADD relauncher-webui.py /sdui/stable-diffusion-webui/relauncher.py
 ADD relauncher-invoke.py /sdui/invoke/relauncher.py
