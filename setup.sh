@@ -1,18 +1,9 @@
 !#/bin/bash
-echo "pod started"
-
-# Install packages
-sudo apt-get update --yes && apt-get upgrade --yes  &&  apt-get install --yes \
-    net-tools vim man file sudo \
-    wget curl git git-lfs tmux gpg zsh openssh-server \
-    libgl1 libglib2.0-0 python3-pip python-is-python3 python3-venv
-    
-sudo apt-get clean && rm -rf /var/lib/apt/lists/* && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+echo "Starting Pod Setup"
 
 # Create directories
 mkdir -p /workspace/local_ckpts # Mount point for checkpoints (on transient storage)
 mkdir -p /sdui/outputs # Mount point for outputs (on persistent storage)
-
 
 # make symbolic links
 ln -s /sdui/invoke /workspace
@@ -42,6 +33,6 @@ su - poduser -c "cd /home/poduser && \
     jupyter labextension install @jupyterlab/xkcd-extension && \
     deactivate"
 
-
+echo "Pod Setup Complete"
 
 
