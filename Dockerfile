@@ -8,9 +8,11 @@ RUN apt-get update --yes && apt-get upgrade --yes  &&  apt-get install --yes \
     wget curl git git-lfs tmux gpg zsh openssh-server \
     libgl1 libglib2.0-0 python3-pip python-is-python3 python3-venv && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
-RUN useradd -m -s /bin/bash poduser && usermod -aG sudo poduser && echo "poduser ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/poduser && chmod 044 /etc/sudoers.d/poduser
 
-COPY --from=build-base --chown=poduser:poduser /sdui /sdui
+# RUN useradd -m -s /bin/bash poduser && usermod -aG sudo poduser && echo "poduser ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/poduser && chmod 044 /etc/sudoers.d/poduser
+
+COPY --from=build-base /sdui /sdui
+# COPY --from=build-base --chown=poduser:poduser /sdui /sdui
 
 ADD webui-user.template /sdui/stable-diffusion-webui/webui-user.sh
 ADD relauncher-webui.py /sdui/stable-diffusion-webui/relauncher.py
@@ -21,6 +23,6 @@ ADD user_apps.sh /
 RUN chmod +x /start.sh && chmod +x /setup.sh && chmod +x /user_apps.sh && /setup.sh 
 
 WORKDIR /sdui
-USER poduser
+# USER poduser
 
 CMD [ "/start.sh" ]

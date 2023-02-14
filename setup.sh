@@ -14,9 +14,9 @@ ln -s /workspace/stable-diffusion-webui/outputs /sdui/outputs/webui
 ln -s /workspace/invoke/outputs /sdui/outputs/invoke
 
 # Set permissions
-chown -R poduser:poduser /workspace
-chown -R poduser:poduser /sdui
-chown poduser:poduser /start.sh
+# chown -R poduser:poduser /workspace
+# chown -R poduser:poduser /sdui
+# chown poduser:poduser /start.sh
 chmod +x /start.sh
 
 // Enable write on created directories
@@ -24,6 +24,6 @@ chmod -R 777 /workspace
 chmod -R 777 /sdui
 
 # Install JupyterLab as the user poduser
-su - poduser -c "bash /user_apps.sh"
-
+# su - poduser -c "bash /user_apps.sh"
+bash ./user_apps.sh
 echo "Pod Apps Setup Complete"

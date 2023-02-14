@@ -2,7 +2,7 @@
 echo "pod started"
 export PYTHONUNBUFFERED=1
 export GPG_TTY=$(tty)
-su poduser -
+# su poduser -
 
 if [[ $PUBLIC_KEY ]]; then
     mkdir -p ~/.ssh
