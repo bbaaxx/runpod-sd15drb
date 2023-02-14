@@ -1,5 +1,5 @@
 !#/bin/bash
-echo "Starting Pod Setup"
+echo "Starting Pod Apps Setup"
 
 # Create directories
 mkdir -p /workspace/local_ckpts # Mount point for checkpoints (on transient storage)
@@ -26,4 +26,4 @@ chmod -R 777 /sdui
 # Install JupyterLab as the user poduser
 su - poduser -c "bash /user_apps.sh"
 
-echo "Pod Setup Complete"
+echo "Pod Apps Setup Complete"

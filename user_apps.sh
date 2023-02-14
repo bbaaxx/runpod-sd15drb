@@ -39,5 +39,6 @@ git clone https://github.com/camenduru/sd-webui-additional-networks.git /sdui/st
 ### Install dreambooth extension
 git clone https://github.com/d8ahazard/sd_dreambooth_extension.git /sdui/stable-diffusion-webui/extensions/sd_dreambooth_extension
 pip install -r /sdui/stable-diffusion-webui/extensions/sd_dreambooth_extension/requirements.txt
+deactivate
 
 echo "Dependencies Built and Installed"
