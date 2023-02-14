@@ -6,7 +6,7 @@ FROM ${BASE_IMAGE} as build-base
 ADD build_apps.sh /
 RUN chmod +x /build_apps.sh && /build_apps.sh
 
-FROM ${BASE_IMAGE} as run-base
+FROM build-base as run-container
 RUN apt-get update --yes && apt-get upgrade --yes  &&  apt-get install --yes \
     net-tools vim man file sudo \
     wget curl git git-lfs tmux gpg zsh openssh-server \
