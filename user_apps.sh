@@ -1,13 +1,18 @@
 !#/bin/bash
-echo "Starting To Build Dependencies"
 
-# Install packages
-apt-get update --yes && apt-get upgrade --yes && \ 
-apt-get install --yes wget curl git libgl1 libglib2.0-0 python3-pip python-is-python3 python3-venv
-apt-get clean && rm -rf /var/lib/apt/lists/* && echo "en_US.UTF-8 UTF-8" >/etc/locale.gen
-
-# Create Mount point (on persistent storage)
-mkdir -p /sdui
+# Install JupyterLab
+cd /workspace
+python -m venv /workspace/jupyter/.venv --prompt JupyterLab
+source /workspace/jupyter/.venv/bin/activate
+pip install --upgrade pip
+pip install jupyterlab
+pip install ipywidgets
+jupyter labextension install @jupyter-widgets/jupyterlab-manager
+jupyter labextension install @jupyterlab/toc
+jupyter labextension install @jupyterlab/git
+jupyter serverextension enable --py jupyterlab_git
+jupyter labextension install @jupyterlab/xkcd-extension
+deactivate
 
 # Install InvokeAI
 mkdir -p /sdui/invoke
@@ -34,7 +39,5 @@ git clone https://github.com/camenduru/sd-webui-additional-networks.git /sdui/st
 ### Install dreambooth extension
 git clone https://github.com/d8ahazard/sd_dreambooth_extension.git /sdui/stable-diffusion-webui/extensions/sd_dreambooth_extension
 pip install -r /sdui/stable-diffusion-webui/extensions/sd_dreambooth_extension/requirements.txt
-
-# chmod -R 777 /sdui
 
 echo "Dependencies Built and Installed"

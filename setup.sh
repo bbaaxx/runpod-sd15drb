@@ -24,17 +24,6 @@ chmod -R 777 /workspace
 chmod -R 777 /sdui
 
 # Install JupyterLab as the user poduser
-su - poduser -c "cd /home/poduser && \
-    python -m venv /workspace/jupyter/.venv --prompt JupyterLab && \
-    source /workspace/jupyter/.venv/bin/activate && \
-    pip install --upgrade pip && \
-    pip install jupyterlab && \
-    pip install ipywidgets && \
-    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
-    jupyter labextension install @jupyterlab/toc && \
-    jupyter labextension install @jupyterlab/git && \
-    jupyter serverextension enable --py jupyterlab_git && \
-    jupyter labextension install @jupyterlab/xkcd-extension && \
-    deactivate"
+su - poduser -c "bash /user_apps.sh"
 
 echo "Pod Setup Complete"

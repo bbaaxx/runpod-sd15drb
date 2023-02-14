@@ -2,10 +2,6 @@
 # ARG BASE_IMAGE=tensorflow/tensorflow:latest-gpu
 ARG BASE_IMAGE=nvidia/cuda:11.7.1-cudnn8-devel-ubuntu22.04
 
-FROM ${BASE_IMAGE} as build-base
-ADD build_apps.sh /
-RUN chmod +x /build_apps.sh && /build_apps.sh
-
 FROM ${BASE_IMAGE} as run-container
 RUN apt-get update --yes && apt-get upgrade --yes  &&  apt-get install --yes \
     net-tools vim man file sudo unzip \
@@ -21,7 +17,8 @@ ADD relauncher-webui.py /sdui/stable-diffusion-webui/relauncher.py
 ADD relauncher-invoke.py /sdui/invoke/relauncher.py
 ADD start.sh /
 ADD setup.sh /
-RUN chmod +x /start.sh && chmod +x /setup.sh && /setup.sh 
+ADD user_apps.sh /
+RUN chmod +x /start.sh && chmod +x /setup.sh && chmod +x /user_apps.sh && /setup.sh 
 
 WORKDIR /sdui
 USER poduser

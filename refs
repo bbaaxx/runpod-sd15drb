@@ -31,6 +31,8 @@ wget -O /workspace/stable-diffusion-webui/models/Stable-diffusion/anything-v4.5-
 curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/mdjrny-v4.ckpt -L https://huggingface.co/prompthero/openjourney/resolve/main/mdjrny-v4.ckpt
 curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/redshift-diffusion-v1.ckpt -L https://huggingface.co/nitrosocke/redshift-diffusion/resolve/main/redshift-diffusion-v1.ckpt
 
+curl -o redshift-diffusion-v1.ckpt -L https://huggingface.co/nitrosocke/redshift-diffusion/resolve/main/redshift-diffusion-v1.ckpt
+
 curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/HassanBlend152Pruned.ckpt -L https://civitai.com/api/download/models/4378?type=Model&format=PickleTensor
 curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/GTM_UltimateBlend_v3.ckpt -L https://civitai.com/api/download/models/5618?type=Model&format=PickleTensor
 curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/GTM_UltimateBlend_inpainting_v3.ckpt -L https://civitai.com/api/download/models/6304?type=Model&format=PickleTensor
