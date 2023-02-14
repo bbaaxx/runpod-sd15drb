@@ -21,10 +21,9 @@ ADD relauncher-webui.py /sdui/stable-diffusion-webui/relauncher.py
 ADD relauncher-invoke.py /sdui/invoke/relauncher.py
 ADD start.sh /
 ADD setup.sh /
-RUN chmod +x /start.sh && chmod +x /setup.sh
+RUN chmod +x /start.sh && chmod +x /setup.sh && /setup.sh 
 
 WORKDIR /sdui
 USER poduser
-RUN /setup.sh 
 
 CMD [ "/start.sh" ]
