@@ -21,7 +21,7 @@ if [[ $JUPYTER_PASSWORD ]]; then
 fi
 
 if [ ! -f /sdui/switch.off ]; then
-    if [ ! -d /workspace/local_ckpts ]; then
+    if [ ! -f /workspace/local_ckpts/v1-5-pruned-emaonly.ckpt ]; then
         echo "Checkpoint folder not found, creating"
         mkdir -p /workspace/local_ckpts
         ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-diffusion/
