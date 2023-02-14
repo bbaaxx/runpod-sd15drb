@@ -13,6 +13,7 @@ RUN apt-get update --yes && apt-get upgrade --yes  &&  apt-get install --yes \
     libgl1 libglib2.0-0 python3-pip python-is-python3 python3-venv && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 RUN useradd -m -s /bin/bash poduser && usermod -aG sudo poduser && echo "poduser ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/poduser && chmod 044 /etc/sudoers.d/poduser
+
 COPY --from=build-base --chown=poduser:poduser /sdui /sdui
 
 ADD webui-user.template /sdui/stable-diffusion-webui/webui-user.sh
@@ -24,6 +25,6 @@ RUN chmod +x /start.sh && chmod +x /setup.sh
 
 WORKDIR /sdui
 USER poduser
-RUN /setup.sh
+RUN /setup.sh 
 
 CMD [ "/start.sh" ]

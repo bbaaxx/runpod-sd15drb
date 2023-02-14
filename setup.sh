@@ -3,7 +3,7 @@ echo "Starting Pod Setup"
 
 # Create directories
 mkdir -p /workspace/local_ckpts # Mount point for checkpoints (on transient storage)
-mkdir -p /sdui/outputs # Mount point for outputs (on persistent storage)
+mkdir -p /sdui/outputs          # Mount point for outputs (on persistent storage)
 
 # make symbolic links
 ln -s /sdui/invoke /workspace
@@ -18,6 +18,10 @@ chown -R poduser:poduser /workspace
 chown -R poduser:poduser /sdui
 chown poduser:poduser /start.sh
 chmod +x /start.sh
+
+// Enable write on created directories
+chmod -R 777 /workspace
+chmod -R 777 /sdui
 
 # Install JupyterLab as the user poduser
 su - poduser -c "cd /home/poduser && \
@@ -34,5 +38,3 @@ su - poduser -c "cd /home/poduser && \
     deactivate"
 
 echo "Pod Setup Complete"
-
-
