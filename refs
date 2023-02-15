@@ -33,11 +33,11 @@ curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/redshift-diffu
 
 curl -o redshift-diffusion-v1.ckpt -L https://huggingface.co/nitrosocke/redshift-diffusion/resolve/main/redshift-diffusion-v1.ckpt
 
-curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/HassanBlend152Pruned.ckpt -L https://civitai.com/api/download/models/4378?type=Model&format=PickleTensor
+curl -o HassanBlend152Pruned.ckpt -L https://civitai.com/api/download/models/4378?type=Model&format=PickleTensor
 curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/GTM_UltimateBlend_v3.ckpt -L https://civitai.com/api/download/models/5618?type=Model&format=PickleTensor
 curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/GTM_UltimateBlend_inpainting_v3.ckpt -L https://civitai.com/api/download/models/6304?type=Model&format=PickleTensor
 
-curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/f222_v1.ckpt -L https://civitai.com/api/download/models/1224?type=Model&format=PickleTensor
+curl -o f222_v1.ckpt -L https://civitai.com/api/download/models/1224?type=Model&format=PickleTensor
 curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/LibertyMain.ckpt -L https://civitai.com/api/download/models/6908?type=Model&format=PickleTensor
 curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/LibertyMainInpaint.ckpt -L https://civitai.com/api/download/models/6937?type=Model&format=PickleTensor
 
@@ -49,7 +49,7 @@ curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/urpim.ckpt -L 
 
 curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/redshift-diffusion-v1.ckpt -L https://huggingface.co/nitrosocke/redshift-diffusion/blob/main/redshift-diffusion-v1.ckpt
 curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/f222_v1.ckpt -L https://civitai.com/api/download/models/1224?type=Model&format=PickleTensor
-curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/LibertyMain.ckpt -L https://civitai.com/api/download/models/6908?type=Model&format=PickleTensor
+curl -o LibertyMain.ckpt -L https://civitai.com/api/download/models/6908?type=Model&format=PickleTensor
 curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/LibertyMainInpaint.ckpt -L https://civitai.com/api/download/models/6937?type=Model&format=PickleTensor
 curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/LibertyTraining.ckpt -L https://civitai.com/api/download/models/6924?type=Model&format=PickleTensor
 
