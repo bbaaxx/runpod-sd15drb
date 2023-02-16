@@ -17,7 +17,7 @@ wget -O stable-diffusion-webui/models/Stable-diffusion/v2-1_512-ema-pruned.yaml 
 
 ## Models
 
-# wget https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.ckpt -O /workspace/stable-diffusion-webui/models/Stable-diffusion/v1-5-pruned.ckpt
+# wget https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.ckpt -O v1-5-pruned.ckpt
 
 # wget https://huggingface.co/ckpt/sd15/resolve/main/v1-5-pruned-emaonly.ckpt -O /workspace/stable-diffusion-webui/models/Stable-diffusion/v1-5-pruned-emaonly.ckpt
 
@@ -67,7 +67,7 @@ git clone https://github.com/camenduru/sd-webui-additional-networks /workspace/s
 git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui-promptgen.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-promptgen
 git clone https://github.com/d8ahazard/sd_smartprocess.git /workspace/stable-diffusion-webui/extensions/sd_smartprocess
 
-wget https://huggingface.co/ckpt/sd15/resolve/main/v1-5-pruned-emaonly.ckpt -O /workspace/stable-diffusion-webui/models/Stable-diffusion/v1-5-pruned-emaonly.ckpt
+wget https://huggingface.co/ckpt/sd15/resolve/main/v1-5-pruned-emaonly.ckpt -O v1-5-pruned-emaonly.ckpt
 wget https://huggingface.co/ckpt/i15/resolve/main/sd-v1-5-inpainting.ckpt -O /workspace/stable-diffusion-webui/models/Stable-diffusion/sd-v1-5-inpainting.ckpt
 
 # su ubuntu -c '/workspace/stable-diffusion-webui/webui.sh --xformers --disable-console-progressbars > /workspace/stable-diffusion-webui/exec_log.out'
