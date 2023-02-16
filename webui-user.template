@@ -1,4 +1,3 @@
 #!/bin/bash
 install_dir="/sdui"
-export COMMANDLINE_ARGS="--port 4206 --xformers --listen --enable-insecure-extension-access --gradio-auth dragon:ballz --disable-console-progressbars"
-
+export COMMANDLINE_ARGS="--port 4206 --xformers --listen --enable-insecure-extension-access --disable-console-progressbars"
