@@ -20,7 +20,8 @@ ADD relauncher-invoke.py /sdui/invoke/relauncher.py
 ADD start.sh /
 ADD setup.sh /
 ADD user_apps.sh /
-RUN chmod +x /start.sh && chmod +x /setup.sh && chmod +x /user_apps.sh && /setup.sh 
+RUN chmod +x /start.sh && chmod +x /setup.sh && chmod +x /user_apps.sh 
+RUN /setup.sh 
 
 WORKDIR /sdui
 # USER poduser
