@@ -41,8 +41,6 @@ RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /works
 
 WORKDIR /workspace/stable-diffusion-webui
 
-
-
 COPY install-webui.py ./install.py
 RUN python -m install --skip-torch-cuda-test
 
@@ -50,7 +48,7 @@ RUN apt clean && rm -rf /var/lib/apt/lists/* && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 
 
-FROM app-deps-container as run-container
+FROM base-deps-container as run-container
 
 COPY webui-user.sh /workspace/stable-diffusion-webui/webui-user.sh
 COPY config.json /workspace/stable-diffusion-webui/config.json
