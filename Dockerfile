@@ -59,7 +59,7 @@ RUN ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable
 
 COPY relauncher-webui.py /workspace/stable-diffusion-webui/relauncher.py
 COPY start.sh /start.sh
-
+RUN chmod +x /start.sh  
 WORKDIR /workspace
 
 CMD [ "/start.sh" ]
