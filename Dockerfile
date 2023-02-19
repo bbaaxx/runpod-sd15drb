@@ -35,14 +35,31 @@ RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /works
     git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui-tokenizer.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-tokenizer && \
     git clone https://github.com/benkyoujouzu/stable-diffusion-webui-visualize-cross-attention-extension.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-visualize-cross-attention-extension
 
+
+WORKDIR /workspace/stable-diffusion-webui
+
+RUN python3 -m venv /workspace/stable-diffusion-webui/venv
+ENV PATH="/workspace/stable-diffusion-webui/venv/bin:$PATH"
+
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+RUN python get-pip.py
+RUN pip install -U jupyterlab ipywidgets jupyter-archive
+RUN jupyter nbextension enable --py widgetsnbextension
+
+ADD install.py .
+RUN python -m install --skip-torch-cuda-test
+
+RUN apt clean && rm -rf /var/lib/apt/lists/* && \
+    echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+
+
 FROM app-deps-container as run-container
 
 COPY launcher-webui.py /workspace/stable-diffusion-webui/launcher.py
-COPY webui-user.template /workspace/stable-diffusion-webui/webui-user.sh
-# RUN sed -i -e '''/prepare_environment()/a\    os.system\(f\"""sed -i -e ''\"s/dict()))/dict())).cuda()/g\"'' /workspace/stable-diffusion-webui/repositories/stable-diffusion-stability-ai/ldm/util.py""")''' /workspace/stable-diffusion-webui/launch.py
-RUN sed -i -e 's/    start()/    #start()/g' /workspace/stable-diffusion-webui/launch.py
-RUN cd /workspace/stable-diffusion-webui && python launcher.py --skip-torch-cuda-test
-RUN sed -i -e 's/    #start()/    start()/g' /workspace/stable-diffusion-webui/launch.py
+COPY webui-user.sh.template /workspace/stable-diffusion-webui/webui-user.sh
+COPY installer.py /workspace/stable-diffusion-webui/installer.py
+
+
 RUN ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-diffusion
 
 COPY  --from=checkpoint_holder /dlt/v1-5-pruned-emaonly.safetensors /workspace/local_ckpts/v1-5-pruned-emaonly.safetensors
@@ -56,7 +73,7 @@ COPY  --from=checkpoint_holder /dlt/v1-5-pruned-emaonly.safetensors /workspace/l
 
 # COPY relauncher-invoke.py /workspace/invoke/relauncher.py
 COPY relauncher-webui.py /workspace/stable-diffusion-webui/relauncher.py
-COPY start.sh /
+COPY start.sh.template /start.sh
 
 RUN chmod +x /start.sh 
 
