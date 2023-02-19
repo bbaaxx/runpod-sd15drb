@@ -11,6 +11,8 @@ RUN apt-get update --yes && apt-get upgrade --yes  &&  apt-get install --yes \
 
 FROM base-deps-container as app-deps-container
 ENV DEBIAN_FRONTEND noninteractive
+ENV TZ=America/MexicoCity
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN mkdir -p /workspace/local_ckpts && mkdir -p /workspace/outputs && mkdir -p /workspace/invoke
 RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /workspace/stable-diffusion-webui && \
     git clone https://github.com/guaneec/custom-diffusion-webui.git /workspace/stable-diffusion-webui/extensions/custom-diffusion-webui && \
