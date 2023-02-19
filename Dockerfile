@@ -35,7 +35,6 @@ FROM app-deps-container as run-container
 COPY webui-user.template /workspace/stable-diffusion-webui/webui-user.sh
 # RUN sed -i -e '''/prepare_environment()/a\    os.system\(f\"""sed -i -e ''\"s/dict()))/dict())).cuda()/g\"'' /workspace/stable-diffusion-webui/repositories/stable-diffusion-stability-ai/ldm/util.py""")''' /workspace/stable-diffusion-webui/launch.py
 RUN sed -i -e 's/    start()/    #start()/g' /workspace/stable-diffusion-webui/launch.py && \
-    source /workspace/stable-diffusion-webui/webui-user.sh && \
     cd stable-diffusion-webui && python launch.py --skip-torch-cuda-test && \
     sed -i -e 's/    #start()/    start()/g' /workspace/stable-diffusion-webui/launch.py
 
