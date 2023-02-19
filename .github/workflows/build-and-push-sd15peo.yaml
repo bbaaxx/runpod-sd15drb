@@ -27,6 +27,6 @@ jobs:
           context: .
           file: Dockerfile.sd15prunedemaonly
           push: true
-          tags: bbaaxx/sd15db-runpod:bbaaxx/sd15db-runpod:sd15prunedemaonly
-          cache-from: type=registry,ref=bbaaxx/sd15db-runpod:bbaaxx/sd15db-runpod:sd15prunedemaonly
+          tags: bbaaxx/sd15db-runpod:sd15prunedemaonly
+          cache-from: type=registry,ref=bbaaxx/sd15db-runpod:sd15prunedemaonly
           cache-to: type=inline
