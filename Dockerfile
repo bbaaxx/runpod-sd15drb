@@ -37,7 +37,7 @@ COPY launcher-webui.py /workspace/stable-diffusion-webui/launcher.py
 COPY webui-user.template /workspace/stable-diffusion-webui/webui-user.sh
 # RUN sed -i -e '''/prepare_environment()/a\    os.system\(f\"""sed -i -e ''\"s/dict()))/dict())).cuda()/g\"'' /workspace/stable-diffusion-webui/repositories/stable-diffusion-stability-ai/ldm/util.py""")''' /workspace/stable-diffusion-webui/launch.py
 RUN sed -i -e 's/    start()/    #start()/g' /workspace/stable-diffusion-webui/launch.py
-RUN cd stable-diffusion-webui && python launcher.py --skip-torch-cuda-test
+RUN cd /workspace/stable-diffusion-webui && python launcher.py --skip-torch-cuda-test
 RUN sed -i -e 's/    #start()/    start()/g' /workspace/stable-diffusion-webui/launch.py
 
 COPY relauncher-webui.py /workspace/stable-diffusion-webui/relauncher.py
