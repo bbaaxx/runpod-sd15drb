@@ -45,7 +45,6 @@ RUN cd /workspace/stable-diffusion-webui && python launcher.py --skip-torch-cuda
 RUN sed -i -e 's/    #start()/    start()/g' /workspace/stable-diffusion-webui/launch.py
 RUN ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-diffusion
 
-COPY relauncher-webui.py /workspace/stable-diffusion-webui/relauncher.py
 COPY  --from=checkpoint_holder /dlt/v1-5-pruned-emaonly.safetensors /workspace/local_ckpts/v1-5-pruned-emaonly.safetensors
 # ADD https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors /workspace/local_ckpts/v1-5-pruned-emaonly.safetensors
 
@@ -56,6 +55,7 @@ COPY  --from=checkpoint_holder /dlt/v1-5-pruned-emaonly.safetensors /workspace/l
 
 
 # COPY relauncher-invoke.py /workspace/invoke/relauncher.py
+COPY relauncher-webui.py /workspace/stable-diffusion-webui/relauncher.py
 COPY start.sh /
 
 RUN chmod +x /start.sh 

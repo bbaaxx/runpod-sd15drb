@@ -13,11 +13,6 @@ source /workspace/jupyter/.venv/bin/activate
 pip install --upgrade pip
 pip install jupyterlab
 pip install ipywidgets
-jupyter labextension install @jupyter-widgets/jupyterlab-manager
-jupyter labextension install @jupyterlab/toc
-jupyter labextension install @jupyterlab/git
-jupyter serverextension enable --py jupyterlab_git
-jupyter labextension install @jupyterlab/xkcd-extension
 deactivate
 
 # Install InvokeAI
@@ -51,7 +46,7 @@ deactivate
 ln -s /sdui/invoke /workspace
 ln -s /sdui/stable-diffusion-webui /workspace
 ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-diffusion/
-ln -s /workspace/local_ckpts /workspace/invoke/models/InvokeAI/
+ln -s /workspace/local_ckpts /workspace/invoke/models/ldm/stable-diffusion-v1/
 ln -s /workspace/stable-diffusion-webui/outputs /sdui/outputs/webui
 ln -s /workspace/invoke/outputs /sdui/outputs/invoke
 
