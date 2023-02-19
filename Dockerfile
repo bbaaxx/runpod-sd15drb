@@ -46,7 +46,7 @@ RUN python get-pip.py
 RUN pip install -U jupyterlab ipywidgets jupyter-archive
 RUN jupyter nbextension enable --py widgetsnbextension
 
-ADD install.py .
+COPY install-webui.py ./install.py
 RUN python -m install --skip-torch-cuda-test
 
 RUN apt clean && rm -rf /var/lib/apt/lists/* && \
@@ -55,10 +55,7 @@ RUN apt clean && rm -rf /var/lib/apt/lists/* && \
 
 FROM app-deps-container as run-container
 
-COPY launcher-webui.py /workspace/stable-diffusion-webui/launcher.py
-COPY webui-user.sh.template /workspace/stable-diffusion-webui/webui-user.sh
-COPY installer.py /workspace/stable-diffusion-webui/installer.py
-
+COPY webui-user.sh /workspace/stable-diffusion-webui/webui-user.sh
 
 RUN ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-diffusion
 
@@ -73,7 +70,7 @@ COPY  --from=checkpoint_holder /dlt/v1-5-pruned-emaonly.safetensors /workspace/l
 
 # COPY relauncher-invoke.py /workspace/invoke/relauncher.py
 COPY relauncher-webui.py /workspace/stable-diffusion-webui/relauncher.py
-COPY start.sh.template /start.sh
+COPY start.sh /start.sh
 
 RUN chmod +x /start.sh 
 
