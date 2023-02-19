@@ -55,14 +55,8 @@ COPY webui-user.sh /workspace/stable-diffusion-webui/webui-user.sh
 
 RUN ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-diffusion
 
-
-ADD https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors /workspace/local_ckpts/v1-5-pruned-emaonly.safetensors
-
-
 COPY relauncher-webui.py /workspace/stable-diffusion-webui/relauncher.py
 COPY start.sh /start.sh
-
-RUN chmod +x /start.sh 
 
 WORKDIR /workspace
 
