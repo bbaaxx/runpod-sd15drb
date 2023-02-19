@@ -3,6 +3,9 @@
 ARG BASE_IMAGE=nvidia/cuda:11.7.1-cudnn8-devel-ubuntu22.04
 
 FROM ${BASE_IMAGE} as base-deps-container
+ENV DEBIAN_FRONTEND noninteractive
+# ENV TZ=America/MexicoCity
+# RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt-get update --yes && apt-get upgrade --yes  &&  apt-get install --yes \
     net-tools vim man file sudo unzip \
     wget curl git git-lfs tmux gpg zsh openssh-server \
@@ -10,9 +13,6 @@ RUN apt-get update --yes && apt-get upgrade --yes  &&  apt-get install --yes \
     apt-get clean && rm -rf /var/lib/apt/lists/* && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 
 FROM base-deps-container as app-deps-container
-ENV DEBIAN_FRONTEND noninteractive
-ENV TZ=America/MexicoCity
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN mkdir -p /workspace/local_ckpts && mkdir -p /workspace/outputs && mkdir -p /workspace/invoke
 RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /workspace/stable-diffusion-webui && \
     git clone https://github.com/guaneec/custom-diffusion-webui.git /workspace/stable-diffusion-webui/extensions/custom-diffusion-webui && \
