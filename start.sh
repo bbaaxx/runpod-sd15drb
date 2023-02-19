@@ -37,8 +37,8 @@ if [ ! -f /sdui/switch.off ]; then
         python /sdui/invoke/relauncher.py &
     elif [[ $WEBUI == "a1111" ]]; then
         echo "Launching A1111 webui"
-        source /sdui/stable-diffusion-webui/venv/bin/activate
-        python /sdui/stable-diffusion-webui/relauncher.py &
+        # source /sdui/stable-diffusion-webui/venv/bin/activate
+        python /sdui/stable-diffusion-webui/launcher.py &
     fi
 fi
 

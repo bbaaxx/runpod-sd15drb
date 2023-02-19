@@ -23,35 +23,23 @@ wget -O stable-diffusion-webui/models/Stable-diffusion/v2-1_512-ema-pruned.yaml 
 
 # wget https://huggingface.co/ckpt/i15/resolve/main/sd-v1-5-inpainting.ckpt -O /workspace/stable-diffusion-webui/models/Stable-diffusion/sd-v1-5-inpainting.ckpt
 
-curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/v1-5-pruned.ckpt -L https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.ckpt
+curl -o v1-5-pruned.ckpt -L https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.ckpt
 
-wget -O /workspace/stable-diffusion-webui/models/Stable-diffusion/anything-v4.5-pruned.ckpt https://huggingface.co/andite/anything-v4.0/resolve/main/anything-v4.5-pruned.ckpt
-wget -O /workspace/stable-diffusion-webui/models/Stable-diffusion/anything-v4.5-pruned.vae.pt https://huggingface.co/andite/anything-v4.0/resolve/main/anything-v4.0.vae.pt
-
-curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/mdjrny-v4.ckpt -L https://huggingface.co/prompthero/openjourney/resolve/main/mdjrny-v4.ckpt
-curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/redshift-diffusion-v1.ckpt -L https://huggingface.co/nitrosocke/redshift-diffusion/resolve/main/redshift-diffusion-v1.ckpt
-
+wget -O anything-v4.5-pruned.ckpt https://huggingface.co/andite/anything-v4.0/resolve/main/anything-v4.5-pruned.ckpt
+wget -O anything-v4.5-pruned.vae.pt https://huggingface.co/andite/anything-v4.0/resolve/main/anything-v4.0.vae.pt
+curl -o mdjrny-v4.ckpt -L https://huggingface.co/prompthero/openjourney/resolve/main/mdjrny-v4.ckpt
 curl -o redshift-diffusion-v1.ckpt -L https://huggingface.co/nitrosocke/redshift-diffusion/resolve/main/redshift-diffusion-v1.ckpt
 
 curl -o HassanBlend152Pruned.ckpt -L https://civitai.com/api/download/models/4378?type=Model&format=PickleTensor
-curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/GTM_UltimateBlend_v3.ckpt -L https://civitai.com/api/download/models/5618?type=Model&format=PickleTensor
-curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/GTM_UltimateBlend_inpainting_v3.ckpt -L https://civitai.com/api/download/models/6304?type=Model&format=PickleTensor
-
+curl -o GTM_UltimateBlend_v3.ckpt -L https://civitai.com/api/download/models/5618?type=Model&format=PickleTensor
+curl -o GTM_UltimateBlend_inpainting_v3.ckpt -L https://civitai.com/api/download/models/6304?type=Model&format=PickleTensor
+curl -o urpim_pruned.ckpt -L https://civitai.com/api/download/models/4971?type=Pruned%20Model&format=PickleTensor
+curl -o urpim.ckpt -L https://civitai.com/api/download/models/4971?type=Model&format=PickleTensor
+curl -o redshift-diffusion-v1.ckpt -L https://huggingface.co/nitrosocke/redshift-diffusion/blob/main/redshift-diffusion-v1.ckpt
 curl -o f222_v1.ckpt -L https://civitai.com/api/download/models/1224?type=Model&format=PickleTensor
-curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/LibertyMain.ckpt -L https://civitai.com/api/download/models/6908?type=Model&format=PickleTensor
-curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/LibertyMainInpaint.ckpt -L https://civitai.com/api/download/models/6937?type=Model&format=PickleTensor
-
-curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/urpim.ckpt -L https://civitai.com/api/download/models/4971?type=Pruned%20Model&format=PickleTensor
-
-curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/urpim.ckpt -L https://civitai.com/api/download/models/4971?type=Model&format=PickleTensor
-
-//
-
-curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/redshift-diffusion-v1.ckpt -L https://huggingface.co/nitrosocke/redshift-diffusion/blob/main/redshift-diffusion-v1.ckpt
-curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/f222_v1.ckpt -L https://civitai.com/api/download/models/1224?type=Model&format=PickleTensor
 curl -o LibertyMain.ckpt -L https://civitai.com/api/download/models/6908?type=Model&format=PickleTensor
-curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/LibertyMainInpaint.ckpt -L https://civitai.com/api/download/models/6937?type=Model&format=PickleTensor
-curl -o /workspace/stable-diffusion-webui/models/Stable-diffusion/LibertyTraining.ckpt -L https://civitai.com/api/download/models/6924?type=Model&format=PickleTensor
+curl -o LibertyMainInpaint.ckpt -L https://civitai.com/api/download/models/6937?type=Model&format=PickleTensor
+curl -o LibertyTraining.ckpt -L https://civitai.com/api/download/models/6924?type=Model&format=PickleTensor
 
 ////// ACTUAL RUN SCRIPT
 
