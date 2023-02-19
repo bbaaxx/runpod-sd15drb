@@ -27,6 +27,7 @@ jobs:
           context: .
           file: Dockerfile.sd15prunedemaonly
           push: true
+          shm-size: 12gb
           tags: bbaaxx/sd15db-runpod:sd15prunedemaonly
           cache-from: type=registry,ref=bbaaxx/sd15db-runpod:sd15prunedemaonly
           cache-to: type=inline
