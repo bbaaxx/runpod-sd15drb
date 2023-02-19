@@ -13,13 +13,13 @@ if [[ $PUBLIC_KEY ]]; then
     cd /
 fi
 
-if [[ $JUPYTER_PASSWORD ]]; then
-    cd /
-    source /workspace/jupyter/.venv/bin/activate
-    jupyter lab --allow-root --no-browser --port=8888 --ip=* --ServerApp.terminado_settings='{"shell_command":["/bin/bash"]}' --ServerApp.token=$JUPYTER_PASSWORD --ServerApp.allow_origin=* --ServerApp.preferred_dir=/workspace
-    echo "Jupyter Lab Started"
-    deactivate
-fi
+# if [[ $JUPYTER_PASSWORD ]]; then
+#     cd /
+#     source /workspace/jupyter/.venv/bin/activate
+#     jupyter lab --allow-root --no-browser --port=8888 --ip=* --ServerApp.terminado_settings='{"shell_command":["/bin/bash"]}' --ServerApp.token=$JUPYTER_PASSWORD --ServerApp.allow_origin=* --ServerApp.preferred_dir=/workspace
+#     echo "Jupyter Lab Started"
+#     deactivate
+# fi
 
 if [ ! -f /sdui/switch.off ]; then
     if [ ! -f /workspace/local_ckpts/v1-5-pruned-emaonly.ckpt ]; then
@@ -38,7 +38,7 @@ if [ ! -f /sdui/switch.off ]; then
     elif [[ $WEBUI == "a1111" ]]; then
         echo "Launching A1111 webui"
         # source /sdui/stable-diffusion-webui/venv/bin/activate
-        python /sdui/stable-diffusion-webui/launcher.py &
+        python /sdui/stable-diffusion-webui/relauncher.py &
     fi
 fi
 
