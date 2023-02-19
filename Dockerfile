@@ -39,8 +39,10 @@ COPY webui-user.template /workspace/stable-diffusion-webui/webui-user.sh
 RUN sed -i -e 's/    start()/    #start()/g' /workspace/stable-diffusion-webui/launch.py
 RUN cd /workspace/stable-diffusion-webui && python launcher.py --skip-torch-cuda-test
 RUN sed -i -e 's/    #start()/    start()/g' /workspace/stable-diffusion-webui/launch.py
+RUN ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-diffusion
 
 COPY relauncher-webui.py /workspace/stable-diffusion-webui/relauncher.py
+ADD https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors /workspace/local_ckpts/v1-5-pruned-emaonly.safetensors
 
 # RUN useradd -m -s /bin/bash poduser && usermod -aG sudo poduser && echo "poduser ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/poduser && chmod 044 /etc/sudoers.d/poduser
 
