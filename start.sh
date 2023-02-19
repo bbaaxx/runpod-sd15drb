@@ -22,23 +22,23 @@ fi
 # fi
 
 if [ ! -f /sdui/switch.off ]; then
-    if [ ! -f /workspace/local_ckpts/v1-5-pruned-emaonly.ckpt ]; then
-        echo "Checkpoint folder not found, creating"
-        mkdir -p /workspace/local_ckpts
-        ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-diffusion/
-        echo "Downloading checkpoint"
-        wget --show-progress -P /workspace/local_ckpts https://huggingface.co/ckpt/sd15/resolve/main/v1-5-pruned-emaonly.ckpt
-    fi
+    # if [ ! -f /workspace/local_ckpts/v1-5-pruned-emaonly.ckpt ]; then
+    #     echo "Checkpoint folder not found, creating"
+    #     mkdir -p /workspace/local_ckpts
+    #     ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-diffusion/
+    #     echo "Downloading checkpoint"
+    #     wget --show-progress -P /workspace/local_ckpts https://huggingface.co/ckpt/sd15/resolve/main/v1-5-pruned-emaonly.ckpt
+    # fi
     echo "Switch-off flag not found Launching WebUI"
 
     if [[ $WEBUI == "invoke" ]]; then
         echo "launching InvokeAi"
-        source /sdui/invoke/.venv/bin/activate
-        python /sdui/invoke/relauncher.py &
+        source /workspace/invoke/.venv/bin/activate
+        python /workspace/invoke/relauncher.py &
     elif [[ $WEBUI == "a1111" ]]; then
         echo "Launching A1111 webui"
         # source /sdui/stable-diffusion-webui/venv/bin/activate
-        python /sdui/stable-diffusion-webui/relauncher.py &
+        python /workspace/stable-diffusion-webui/relauncher.py &
     fi
 fi
 
