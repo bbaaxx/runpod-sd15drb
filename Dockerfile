@@ -2,10 +2,6 @@
 # ARG BASE_IMAGE=tensorflow/tensorflow:latest-gpu
 ARG BASE_IMAGE=nvidia/cuda:11.7.1-cudnn8-devel-ubuntu22.04
 
-FROM alpine:latest as checkpoint_holder
-RUN mkdir /dlt
-ADD https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors /dlt/v1-5-pruned-emaonly.safetensors
-
 FROM ${BASE_IMAGE} as base-deps-container
 ENV DEBIAN_FRONTEND noninteractive
 # ENV TZ=America/MexicoCity
@@ -59,17 +55,10 @@ COPY webui-user.sh /workspace/stable-diffusion-webui/webui-user.sh
 
 RUN ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-diffusion
 
-# COPY  --from=checkpoint_holder /dlt/v1-5-pruned-emaonly.safetensors /workspace/local_ckpts/v1-5-pruned-emaonly.safetensors
 
 ADD https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors /workspace/local_ckpts/v1-5-pruned-emaonly.safetensors
 
-# RUN useradd -m -s /bin/bash poduser && usermod -aG sudo poduser && echo "poduser ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/poduser && chmod 044 /etc/sudoers.d/poduser
 
-# COPY --from=build-base /workspace /workspace
-# COPY --from=build-base --chown=poduser:poduser /workspace /workspace
-
-
-# COPY relauncher-invoke.py /workspace/invoke/relauncher.py
 COPY relauncher-webui.py /workspace/stable-diffusion-webui/relauncher.py
 COPY start.sh /start.sh
 
