@@ -22,13 +22,13 @@ fi
 # fi
 
 if [ ! -f /sdui/switch.off ]; then
-    # if [ ! -f /workspace/local_ckpts/v1-5-pruned-emaonly.ckpt ]; then
-    #     echo "Checkpoint folder not found, creating"
-    #     mkdir -p /workspace/local_ckpts
-    #     ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-diffusion/
-    #     echo "Downloading checkpoint"
-    #     wget --show-progress -P /workspace/local_ckpts https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors
-    # fi
+    if [ ! -f /workspace/local_ckpts/v1-5-pruned-emaonly.ckpt ]; then
+        echo "Checkpoint folder not found, creating"
+        mkdir -p /workspace/local_ckpts
+        ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-diffusion/
+        echo "Downloading checkpoint"
+        wget --show-progress -P /workspace/local_ckpts https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors
+    fi
     echo "Switch-off flag not found Launching WebUI"
 
     if [[ $WEBUI == "invoke" ]]; then
