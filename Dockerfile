@@ -12,7 +12,14 @@ RUN apt-get update --yes && apt-get upgrade --yes  &&  apt-get install --yes \
     libgl1 libglib2.0-0 python3-pip python-is-python3 python3-venv python3-opencv && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 
-FROM base-deps-container as app-deps-container
+RUN python3 -m venv /workspace/stable-diffusion-webui/venv
+ENV PATH="/workspace/stable-diffusion-webui/venv/bin:$PATH"
+
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+    python get-pip.py && \
+    pip install -U jupyterlab ipywidgets jupyter-archive && \
+    jupyter nbextension enable --py widgetsnbextension
+
 RUN mkdir -p /workspace/local_ckpts && mkdir -p /workspace/outputs && mkdir -p /workspace/invoke
 RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /workspace/stable-diffusion-webui && \
     git clone https://github.com/guaneec/custom-diffusion-webui.git /workspace/stable-diffusion-webui/extensions/custom-diffusion-webui && \
@@ -34,13 +41,7 @@ RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /works
 
 WORKDIR /workspace/stable-diffusion-webui
 
-RUN python3 -m venv /workspace/stable-diffusion-webui/venv
-ENV PATH="/workspace/stable-diffusion-webui/venv/bin:$PATH"
 
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-RUN python get-pip.py
-RUN pip install -U jupyterlab ipywidgets jupyter-archive
-RUN jupyter nbextension enable --py widgetsnbextension
 
 COPY install-webui.py ./install.py
 RUN python -m install --skip-torch-cuda-test
