@@ -52,8 +52,10 @@ RUN apt clean && rm -rf /var/lib/apt/lists/* && \
 FROM app-deps-container as run-container
 
 COPY webui-user.sh /workspace/stable-diffusion-webui/webui-user.sh
-
+COPY config.json /workspace/stable-diffusion-webui/config.json
+COPY ui-config.json /workspace/stable-diffusion-webui/ui-config.json
 RUN ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-diffusion
+
 
 COPY relauncher-webui.py /workspace/stable-diffusion-webui/relauncher.py
 COPY start.sh /start.sh
