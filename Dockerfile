@@ -59,8 +59,9 @@ COPY webui-user.sh /workspace/stable-diffusion-webui/webui-user.sh
 
 RUN ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-diffusion
 
-COPY  --from=checkpoint_holder /dlt/v1-5-pruned-emaonly.safetensors /workspace/local_ckpts/v1-5-pruned-emaonly.safetensors
-# ADD https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors /workspace/local_ckpts/v1-5-pruned-emaonly.safetensors
+# COPY  --from=checkpoint_holder /dlt/v1-5-pruned-emaonly.safetensors /workspace/local_ckpts/v1-5-pruned-emaonly.safetensors
+
+ADD https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors /workspace/local_ckpts/v1-5-pruned-emaonly.safetensors
 
 # RUN useradd -m -s /bin/bash poduser && usermod -aG sudo poduser && echo "poduser ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/poduser && chmod 044 /etc/sudoers.d/poduser
 

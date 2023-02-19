@@ -27,7 +27,7 @@ if [ ! -f /sdui/switch.off ]; then
     #     mkdir -p /workspace/local_ckpts
     #     ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-diffusion/
     #     echo "Downloading checkpoint"
-    #     wget --show-progress -P /workspace/local_ckpts https://huggingface.co/ckpt/sd15/resolve/main/v1-5-pruned-emaonly.ckpt
+    #     wget --show-progress -P /workspace/local_ckpts https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors
     # fi
     echo "Switch-off flag not found Launching WebUI"
 
