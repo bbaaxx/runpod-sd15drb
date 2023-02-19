@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # ENV TZ=America/MexicoCity
 # RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt-get update --yes && apt-get upgrade --yes  &&  apt-get install --yes \
-    net-tools vim man file sudo unzip \
+    net-tools vim man file sudo unzip sed \
     wget curl git git-lfs tmux gpg zsh openssh-server \
     libgl1 libglib2.0-0 python3-pip python-is-python3 python3-venv python3-opencv && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
@@ -32,14 +32,15 @@ RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /works
     git clone https://github.com/benkyoujouzu/stable-diffusion-webui-visualize-cross-attention-extension.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-visualize-cross-attention-extension
 
 FROM app-deps-container as run-container
+
+COPY launcher-webui.py /workspace/stable-diffusion-webui/launcher.py
 COPY webui-user.template /workspace/stable-diffusion-webui/webui-user.sh
 # RUN sed -i -e '''/prepare_environment()/a\    os.system\(f\"""sed -i -e ''\"s/dict()))/dict())).cuda()/g\"'' /workspace/stable-diffusion-webui/repositories/stable-diffusion-stability-ai/ldm/util.py""")''' /workspace/stable-diffusion-webui/launch.py
-RUN sed -i -e 's/    start()/    #start()/g' /workspace/stable-diffusion-webui/launch.py && \
-    cd stable-diffusion-webui && python launch.py --skip-torch-cuda-test && \
-    sed -i -e 's/    #start()/    start()/g' /workspace/stable-diffusion-webui/launch.py
+RUN sed -i -e 's/    start()/    #start()/g' /workspace/stable-diffusion-webui/launch.py
+RUN cd stable-diffusion-webui && python launcher.py --skip-torch-cuda-test
+RUN sed -i -e 's/    #start()/    start()/g' /workspace/stable-diffusion-webui/launch.py
 
 COPY relauncher-webui.py /workspace/stable-diffusion-webui/relauncher.py
-COPY launcher-webui.py /workspace/stable-diffusion-webui/launcher.py
 
 # RUN useradd -m -s /bin/bash poduser && usermod -aG sudo poduser && echo "poduser ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/poduser && chmod 044 /etc/sudoers.d/poduser
 
