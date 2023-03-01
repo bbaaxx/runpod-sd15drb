@@ -108,12 +108,14 @@ COPY --from=builder ${DREAM_VENV_PATH} ${DREAM_VENV_PATH}
 #   https://github.com/TimDettmers/bitsandbytes/issues/73
 ENV LD_LIBRARY_PATH="/usr/local/cuda-11.7/targets/x86_64-linux/lib"
 RUN ln /usr/local/cuda-11.7/targets/x86_64-linux/lib/libcudart.so.11.0 /usr/local/cuda-11.7/targets/x86_64-linux/lib/libcudart.so
-RUN pip install bitsandbytes==0.37.0
-
 RUN git clone https://github.com/victorchall/EveryDream2trainer /workspace/EveryDream2trainer
 WORKDIR /workspace/EveryDream2trainer
-RUN python utils/get_yamls.py && \
-    mkdir -p logs && mkdir -p input && deactivate
+
+RUN source ${DREAM_VENV_PATH}/bin/activate && \
+    pip install bitsandbytes==0.37.0 && \ 
+    python utils/get_yamls.py && \
+    mkdir -p logs && mkdir -p input && \
+    deactivate
 
 ## lets do SDUI
 RUN mkdir -p /workspace/local_ckpts && mkdir -p /workspace/outputs && mkdir -p /workspace/invoke
