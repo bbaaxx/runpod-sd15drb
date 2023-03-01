@@ -1,8 +1,6 @@
 ARG BUILD_IMAGE=nvidia/cuda:11.7.1-devel-ubuntu22.04
 ARG BUILD_IMAGE_CU=nvidia/cuda:11.7.1-cudnn8-devel-ubuntu22.04
 
-ARG MAIN_VENV_PATH=/workspace/venv
-ARG SDUI_VENV_PATH=/workspace/stable-diffusion-webui/venv
 ###################
 # Builder Stage
 FROM ${BUILD_IMAGE} AS builder
@@ -22,12 +20,14 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     gnupg ca-certificates \
     && update-ca-certificates
 
-ENV PATH="$MAIN_VENV_PATH/bin:$PATH"
+ARG VIRTUAL_ENV=/workspace/venv
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 ADD root_requirements.txt /build
-RUN --mount=type=cache,target=/root/.cache/pip python3 -m venv ${MAIN_VENV_PATH} 
-RUN pip install -U -I torch==1.13.1+cu117 torchvision==0.14.1+cu117 --extra-index-url "https://download.pytorch.org/whl/cu117" 
-RUN pip install -r root_requirements.txt && \
+RUN --mount=type=cache,target=/root/.cache/pip \
+    python3 -m venv ${VIRTUAL_ENV}
+RUN pip install -U -I torch==1.13.1+cu117 torchvision==0.14.1+cu117 --extra-index-url "https://download.pytorch.org/whl/cu117" && \
+    pip install -r root_requirements.txt && \
     pip install --pre --no-deps xformers==0.0.17.dev451
 #    In case of emergency, build xformers from scratch
 #    export FORCE_CUDA=1 && export TORCH_CUDA_ARCH_LIST="7.5;8.0;8.6" && export CUDA_VISIBLE_DEVICES=0 && \
@@ -37,6 +37,8 @@ RUN pip install -r root_requirements.txt && \
 ###################
 # Runtime Stage
 FROM nvidia/cuda:11.7.1-runtime-ubuntu22.04 as runtime
+ARG MAIN_VENV_PATH=/workspace/venv
+ARG SDUI_VENV_PATH=/workspace/stable-diffusion-webui/venv
 
 # Use bash shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
