@@ -3,6 +3,9 @@ ARG BUILD_IMAGE_CU=nvidia/cuda:11.7.1-cudnn8-devel-ubuntu22.04
 
 FROM ${BUILD_IMAGE} AS builder
 ARG DEBIAN_FRONTEND=noninteractive
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+ENV DEBIAN_FRONTEND noninteractive\
+    SHELL=/bin/bash
 # Don't write .pyc bytecode
 ENV PYTHONDONTWRITEBYTECODE=1
 # Create workspace working directory
@@ -19,12 +22,13 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     && update-ca-certificates
 
 ARG DREAM_VENV_PATH=/workspace/venv
-# ENV PATH="$DREAM_VENV_PATH/bin:$PATH"
+ENV PATH="$DREAM_VENV_PATH/bin:$PATH"
 # RUN echo "source ${DREAM_VENV_PATH}/bin/activate" >> /root/.bashrc
 
 ADD root_requirements.txt /workspace
 RUN --mount=type=cache,target=/root/.cache/pip \
-    python3 -m venv ${DREAM_VENV_PATH} && source ${DREAM_VENV_PATH}/bin/activate && \
+    python3 -m venv ${DREAM_VENV_PATH}
+RUN source ${DREAM_VENV_PATH}/bin/activate && \
     pip install -U -I torch==1.13.1+cu117 torchvision==0.14.1+cu117 --extra-index-url "https://download.pytorch.org/whl/cu117" && \
     pip install -r root_requirements.txt && \
     pip install --pre --no-deps xformers==0.0.17.dev451 && deactivate
