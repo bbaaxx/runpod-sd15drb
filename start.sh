@@ -15,7 +15,7 @@ fi
 
 if [[ $JUPYTER_PASSWORD ]]; then
     cd /
-    source /workspace/stable-diffusion-webui/venv/bin/activate
+    source /workspace/venv/bin/activate
     jupyter nbextension enable --py widgetsnbextension
     nohup jupyter lab --allow-root --no-browser --port=8888 --ip=* --ServerApp.terminado_settings='{"shell_command":["/bin/bash"]}' --ServerApp.token=$JUPYTER_PASSWORD --ServerApp.allow_origin=* --ServerApp.preferred_dir=/workspace &
     echo "Jupyter Lab Started"
@@ -28,8 +28,8 @@ if [[ $WITH_TENSORBOARD ]]; then
     mkdir -p /workspace/logs/dreambooth
     ln -s /workspace/stable-diffusion-webui/models/dreambooth /workspace/logs/dreambooth
     ln -s /workspace/stable-diffusion-webui/textual_inversion /workspace/logs/ti
-    source /workspace/stable-diffusion-webui/venv/bin/activate
-    nohup tensorboard --logdir=/workspace/logs --port=6006 --host=
+    source /workspace/venv/bin/activate
+    nohup tensorboard --logdir=/workspace/logs --port=6006 --host= &
     echo "Tensorboard Started"
     deactivate
 fi
