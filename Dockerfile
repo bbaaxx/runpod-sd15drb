@@ -15,7 +15,7 @@ WORKDIR /workspace
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    apt update && apt-get install -y \
+    apt-get update && apt-get upgrade -y && apt-get install -y \
     git wget build-essential \
     python3-venv python3-pip \
     gnupg ca-certificates \
@@ -82,12 +82,12 @@ ENV PYTHONDONTWRITEBYTECODE=1
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    apt update && apt install -y --no-install-recommends \
-    wget bash zsh curl git git-lfs vim tmux \
+    apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
+    wget bash zsh curl git git-lfs vim tmux zip \
     build-essential lsb-release \
     python3-pip python3-venv \
     openssh-server \
-    libgl1 libglib2.0-0 python-is-python3 python3-opencv \
+    libgl1 libglib2.0-0  python3-opencv \
     gnupg ca-certificates && \
     update-ca-certificates && \
     apt-get clean && \

@@ -16,6 +16,11 @@ fi
 if [[ $JUPYTER_PASSWORD ]]; then
     cd /
     source /workspace/venv/bin/activate
+    # jupyter labextension install @jupyter-widgets/jupyterlab-manager
+    # jupyter labextension install @jupyterlab/git
+    # jupyter labextension install @jupyterlab/server-proxy
+    # jupyter labextension install @jupyterlab/xkcd-extension
+    # jupyter serverextension enable --py jupyterlab_git
     jupyter nbextension enable --py widgetsnbextension
     nohup jupyter lab --allow-root --no-browser --port=8888 --ip=* --ServerApp.terminado_settings='{"shell_command":["/bin/bash"]}' --ServerApp.token=$JUPYTER_PASSWORD --ServerApp.allow_origin=* --ServerApp.preferred_dir=/workspace &
     echo "Jupyter Lab Started"
