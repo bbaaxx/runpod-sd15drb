@@ -2,7 +2,6 @@
 echo "pod started"
 export PYTHONUNBUFFERED=1
 export GPG_TTY=$(tty)
-# su poduser -
 
 if [[ $PUBLIC_KEY ]]; then
     mkdir -p ~/.ssh
@@ -16,11 +15,6 @@ fi
 if [[ $JUPYTER_PASSWORD ]]; then
     cd /
     source /workspace/venv/bin/activate
-    # jupyter labextension install @jupyter-widgets/jupyterlab-manager
-    # jupyter labextension install @jupyterlab/git
-    # jupyter labextension install @jupyterlab/server-proxy
-    # jupyter labextension install @jupyterlab/xkcd-extension
-    # jupyter serverextension enable --py jupyterlab_git
     jupyter nbextension enable --py widgetsnbextension
     nohup jupyter lab --allow-root --no-browser --port=8888 --ip=* --ServerApp.terminado_settings='{"shell_command":["/bin/bash"]}' --ServerApp.token=$JUPYTER_PASSWORD --ServerApp.allow_origin=* --ServerApp.preferred_dir=/workspace &
     echo "Jupyter Lab Started"
@@ -39,7 +33,7 @@ if [[ $WITH_TENSORBOARD ]]; then
     deactivate
 fi
 
-if [ ! -f /sdui/switch.off ]; then
+if [ $PREVENT_AUTOLAUNCH == "true" ]; then
     if [ ! -f /workspace/local_ckpts/v1-5-pruned-emaonly.safetensors ]; then
         echo "Checkpoint folder not found, creating"
         mkdir -p /workspace/local_ckpts
@@ -48,19 +42,11 @@ if [ ! -f /sdui/switch.off ]; then
         wget --show-progress -P /workspace/local_ckpts https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors
     fi
     echo "Switch-off flag not found Launching WebUI"
-
-    if [[ $WEBUI == "invoke" ]]; then
-        echo "launching InvokeAi"
-        source /workspace/invoke/.venv/bin/activate
-        python /workspace/invoke/relauncher.py &
-        deactivate
-    elif [[ $WEBUI == "a1111" ]]; then
-        echo "Launching A1111 webui"
-        cd /workspace/stable-diffusion-webui
-        source ./venv/bin/activate
-        python relauncher.py &
-        deactivate
-    fi
+    echo "Launching A1111 webui"
+    cd /workspace/stable-diffusion-webui
+    source ./venv/bin/activate
+    python relauncher.py &
+    deactivate
 fi
 
 sleep infinity

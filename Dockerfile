@@ -1,8 +1,9 @@
 ARG BUILD_IMAGE=nvidia/cuda:11.7.1-devel-ubuntu22.04
 ARG BUILD_IMAGE_CU=nvidia/cuda:11.7.1-cudnn8-devel-ubuntu22.04
+ARG RUNTIME_IMAGE=nvidia/cuda:11.7.1-runtime-ubuntu22.04
+ARG RUNTIME_IMAGE_CU=nvidia/cuda:11.7.1-cudnn8-runtime-ubuntu22.04
 
-FROM ${BUILD_IMAGE} AS builder
-ARG DEBIAN_FRONTEND=noninteractive
+FROM ${BUILD_IMAGE_CU} AS builder
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ENV DEBIAN_FRONTEND noninteractive\
     SHELL=/bin/bash
@@ -36,22 +37,7 @@ RUN source ${DREAM_VENV_PATH}/bin/activate && \
 #    export FORCE_CUDA=1 && export TORCH_CUDA_ARCH_LIST="7.5;8.0;8.6" && export CUDA_VISIBLE_DEVICES=0 && \
 #    pip install --no-deps git+https://github.com/facebookresearch/xformers.git@48a77cc#egg=xformers
 
-RUN mkdir -p /workspace/local_ckpts && mkdir -p /workspace/outputs && mkdir -p /workspace/invoke
-RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /workspace/stable-diffusion-webui && \
-    git clone https://github.com/guaneec/custom-diffusion-webui.git /workspace/stable-diffusion-webui/extensions/custom-diffusion-webui && \
-    git clone https://github.com/camenduru/sd-civitai-browser.git /workspace/stable-diffusion-webui/extensions/sd-civitai-browser && \
-    git clone https://github.com/adieyal/sd-dynamic-prompts.git /workspace/stable-diffusion-webui/extensions/sd-dynamic-prompts && \
-    git clone https://github.com/camenduru/sd-webui-additional-networks.git /workspace/stable-diffusion-webui/extensions/sd-webui-additional-networks && \
-    git clone https://github.com/d8ahazard/sd_dreambooth_extension.git /workspace/stable-diffusion-webui/extensions/sd_dreambooth_extension && \
-    git clone https://github.com/catppuccin/stable-diffusion-webui.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui && \
-    git clone https://github.com/toriato/stable-diffusion-webui-daam.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-daam && \
-    git clone https://github.com/CodeExplode/stable-diffusion-webui-embedding-editor.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-embedding-editor && \
-    git clone https://github.com/camenduru/stable-diffusion-webui-huggingface.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-huggingface && \
-    git clone https://github.com/AlUlkesh/stable-diffusion-webui-images-browser.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-images-browser && \
-    git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui-promptgen.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-promptgen && \
-    git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui-tokenizer.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-tokenizer && \
-    git clone https://github.com/benkyoujouzu/stable-diffusion-webui-visualize-cross-attention-extension.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-visualize-cross-attention-extension
-
+RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /workspace/stable-diffusion-webui
 
 ARG SDUI_VENV_PATH=/workspace/stable-diffusion-webui/venv
 # ENV PATH="$SDUI_VENV_PATH/bin:$PATH"
@@ -65,7 +51,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 ###################
 # Runtime Stage
-FROM nvidia/cuda:11.7.1-runtime-ubuntu22.04 as runtime
+FROM ${RUNTIME_IMAGE_CU} as runtime
 ARG DREAM_VENV_PATH=/workspace/venv
 ARG SDUI_VENV_PATH=/workspace/stable-diffusion-webui/venv
 
@@ -118,24 +104,25 @@ RUN source ${DREAM_VENV_PATH}/bin/activate && \
     deactivate
 
 ## lets do SDUI
-RUN mkdir -p /workspace/local_ckpts && mkdir -p /workspace/outputs && mkdir -p /workspace/invoke
 RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /workspace/stable-diffusion-webui && \
     git clone https://github.com/guaneec/custom-diffusion-webui.git /workspace/stable-diffusion-webui/extensions/custom-diffusion-webui && \
     git clone https://github.com/camenduru/sd-civitai-browser.git /workspace/stable-diffusion-webui/extensions/sd-civitai-browser && \
     git clone https://github.com/adieyal/sd-dynamic-prompts.git /workspace/stable-diffusion-webui/extensions/sd-dynamic-prompts && \
     git clone https://github.com/camenduru/sd-webui-additional-networks.git /workspace/stable-diffusion-webui/extensions/sd-webui-additional-networks && \
     git clone https://github.com/d8ahazard/sd_dreambooth_extension.git /workspace/stable-diffusion-webui/extensions/sd_dreambooth_extension && \
-    git clone https://github.com/catppuccin/stable-diffusion-webui.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui && \
     git clone https://github.com/toriato/stable-diffusion-webui-daam.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-daam && \
     git clone https://github.com/CodeExplode/stable-diffusion-webui-embedding-editor.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-embedding-editor && \
-    git clone https://github.com/camenduru/stable-diffusion-webui-huggingface.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-huggingface && \
+    # git clone https://github.com/camenduru/stable-diffusion-webui-huggingface.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-huggingface && \
     git clone https://github.com/AlUlkesh/stable-diffusion-webui-images-browser.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-images-browser && \
     git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui-promptgen.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-promptgen && \
     git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui-tokenizer.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-tokenizer && \
     git clone https://github.com/benkyoujouzu/stable-diffusion-webui-visualize-cross-attention-extension.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-visualize-cross-attention-extension
-COPY --from=builder ${SDUI_VENV_PATH} ${SDUI_VENV_PATH}
 
-RUN ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-diffusion
+COPY --from=builder ${SDUI_VENV_PATH} ${SDUI_VENV_PATH}
+RUN mkdir -p /workspace/local_ckpts && mkdir -p /workspace/outputs && \
+    ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-diffusion && \
+    ln -s /workspace/outputs /workspace/stable-diffusion-webui/outputs
+
 COPY webui-user.sh /workspace/stable-diffusion-webui/webui-user.sh
 COPY config.json /workspace/stable-diffusion-webui/config.json
 COPY ui-config.json /workspace/stable-diffusion-webui/ui-config.json

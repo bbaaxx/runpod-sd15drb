@@ -1,4 +1,5 @@
-FROM bbaaxx/sd15db-runpod:latest 
+ARG BASE_TAG=main
+FROM bbaaxx/sd15db-runpod:${BASE_TAG}
 
 ADD https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors /workspace/local_ckpts/v1-5-pruned-emaonly.safetensors
 
