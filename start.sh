@@ -33,7 +33,7 @@ if [[ $WITH_TENSORBOARD ]]; then
     deactivate
 fi
 
-if [ $PREVENT_AUTOLAUNCH ]; then
+if [ $AUTOLAUNCH ]; then
     if [ ! -f /workspace/local_ckpts/v1-5-pruned-emaonly.safetensors ]; then
         echo "Checkpoint folder not found, creating"
         mkdir -p /workspace/local_ckpts
