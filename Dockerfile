@@ -23,8 +23,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     && update-ca-certificates
 
 ARG DREAM_VENV_PATH=/workspace/venv
-ENV PATH="$DREAM_VENV_PATH/bin:$PATH"
-# RUN echo "source ${DREAM_VENV_PATH}/bin/activate" >> /root/.bashrc
+
 
 ADD root_requirements.txt /workspace
 RUN --mount=type=cache,target=/root/.cache/pip \
@@ -40,7 +39,6 @@ RUN source ${DREAM_VENV_PATH}/bin/activate && \
 RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /workspace/stable-diffusion-webui
 
 ARG SDUI_VENV_PATH=/workspace/stable-diffusion-webui/venv
-# ENV PATH="$SDUI_VENV_PATH/bin:$PATH"
 
 WORKDIR /workspace/stable-diffusion-webui
 COPY install-webui.py ./install.py
@@ -87,7 +85,6 @@ RUN wget https://github.com/runpod/runpodctl/releases/download/v1.9.0/runpodctl-
 
 # ENV PATH="$DREAM_VENV_PATH/bin:$PATH"
 COPY --from=builder ${DREAM_VENV_PATH} ${DREAM_VENV_PATH}
-# RUN echo "source ${DREAM_VENV_PATH}/bin/activate" >> /root/.bashrc
 
 # Workaround for:
 #   https://github.com/TimDettmers/bitsandbytes/issues/62
