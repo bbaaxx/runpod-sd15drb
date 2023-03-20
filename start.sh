@@ -33,14 +33,13 @@ if [[ $WITH_TENSORBOARD ]]; then
     deactivate
 fi
 
+if [ $DOWNLOAD_CKPT_URL ]; then
+    echo "Checkpoint folder not found, creating"
+    mkdir -p /workspace/shared/checkpoints
+    wget --show-progress -P /workspace/shared/checkpoints $DOWNLOAD_CKPT_URL
+fi
+
 if [ $AUTOLAUNCH ]; then
-    if [ ! -f /workspace/local_ckpts/v1-5-pruned-emaonly.safetensors ]; then
-        echo "Checkpoint folder not found, creating"
-        mkdir -p /workspace/local_ckpts
-        ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-diffusion/
-        echo "Downloading checkpoint"
-        wget --show-progress -P /workspace/local_ckpts https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors
-    fi
     echo "Switch-off flag not found Launching WebUI"
     echo "Launching A1111 webui"
     cd /workspace/stable-diffusion-webui
