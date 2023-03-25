@@ -1,15 +1,28 @@
 # Template to buld a Docker container with a Stable Difussion webui work environment for training/refining models
 Designed to work on Runpod.io but it should run elsewhere with little-to-none customization.
 
+## UPDATED (March 25) - Torch2 and Xformers update + v-1_5-vae (checkpoint) and mse-840000 (vae) included
+
+### NOTE: YOUR JUPYTER PASSWORD IS PROVIDED ON THE `JUPYTER_PASSWORD` ENV (if running on runpod check your pod settings).
+
 ## What's in the box?
-- Nvidia CUDA 11.7 devel image on Ubuntu 22.04 (minified but with some base tools added)
+- Nvidia CUDA 11.8 devel image on Ubuntu 22.04 (minified but with some base tools added)
 - Switch between A111 webui and InvokeAI (WIP)
-- Dreamboot, Inspiration and other useful (opinionated) extensions for model training and evaluating results
+- Dreamboot extension working with torch 2 and xformers
+- DreamTrain 2 ready to use
+- Tensorboard
+- Other useful extensions
 
 ## How to use
 On runpod look for this template on the comunity [templates area here](https://www.runpod.io/console/templates).
 
 Elsewhere, edit 'start.sh' and/or the included scripts to fit your needs and probably configure your container to run `/start.sh` on launch.
+
+# Open ports
+- 4206 Web UI
+- 4204 (Reserved for other tools)
+- 6006 Tensorboard
+- 8888 Jupyter
 
 ## Like what you see?
  am a developer, artist and crazy inventor. If something I created is useful for you, please consider [buying me a coffee to help me keep creating](https://www.buymeacoffee.com/bbaaxx). Thanks!

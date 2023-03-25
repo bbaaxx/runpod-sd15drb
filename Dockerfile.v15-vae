@@ -2,6 +2,7 @@ ARG BASE_TAG=dreamtrain
 FROM bbaaxx/sd15db-runpod:${BASE_TAG}
 
 ADD https://huggingface.co/panopstor/EveryDream/resolve/main/sd_v1-5_vae.ckpt /workspace/local_ckpts/sd_v1-5_vae.ckpt
+ADD https://huggingface.co/stabilityai/sd-vae-ft-mse-original/resolve/main/vae-ft-mse-840000-ema-pruned.ckpt /workspace/local_vae/vae-ft-mse-840000-ema-pruned.ckpt
 
 COPY relauncher-webui.py /workspace/stable-diffusion-webui/relauncher.py
 COPY start.sh /start.sh

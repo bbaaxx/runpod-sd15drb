@@ -3,7 +3,7 @@ echo "pod started"
 export PYTHONUNBUFFERED=1
 export GPG_TTY=$(tty)
 
-if [[ $PUBLIC_KEY ]]; then
+if [ $PUBLIC_KEY ]; then
     mkdir -p ~/.ssh
     chmod 700 ~/.ssh
     cd ~/.ssh
@@ -12,7 +12,7 @@ if [[ $PUBLIC_KEY ]]; then
     cd /
 fi
 
-if [[ $JUPYTER_PASSWORD ]]; then
+if [ $JUPYTER_PASSWORD ]; then
     cd /
     source /workspace/venv/bin/activate
     jupyter nbextension enable --py widgetsnbextension
@@ -21,7 +21,7 @@ if [[ $JUPYTER_PASSWORD ]]; then
     deactivate
 fi
 
-if [[ $WITH_TENSORBOARD ]]; then
+if [ $WITH_TENSORBOARD ]; then
     cd /workspace
     mkdir -p /workspace/logs/ti
     mkdir -p /workspace/logs/dreambooth
@@ -42,8 +42,8 @@ fi
 if [ $AUTOLAUNCH ]; then
     echo "Switch-off flag not found Launching WebUI"
     echo "Launching A1111 webui"
+    source /workspace/stable-diffusion-webui/venv/bin/activate
     cd /workspace/stable-diffusion-webui
-    source ./venv/bin/activate
     python relauncher.py &
     deactivate
 fi

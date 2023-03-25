@@ -1,65 +1,74 @@
-ARG BUILD_IMAGE=nvidia/cuda:11.7.1-devel-ubuntu22.04
-ARG BUILD_IMAGE_CU=nvidia/cuda:11.7.1-cudnn8-devel-ubuntu22.04
-ARG RUNTIME_IMAGE=nvidia/cuda:11.7.1-runtime-ubuntu22.04
-ARG RUNTIME_IMAGE_CU=nvidia/cuda:11.7.1-cudnn8-runtime-ubuntu22.04
+ARG BUILD_IMAGE=nvidia/cuda:11.8.0-cudnn8-devel-ubuntu20.04
+ARG RUNTIME_IMAGE=nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu20.04
 
-FROM ${BUILD_IMAGE_CU} AS builder
+FROM ${BUILD_IMAGE} AS builder
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ENV DEBIAN_FRONTEND noninteractive\
     SHELL=/bin/bash
 # Don't write .pyc bytecode
 ENV PYTHONDONTWRITEBYTECODE=1
+
 # Create workspace working directory
-RUN mkdir /workspace
+RUN mkdir -p /workspace
 WORKDIR /workspace
 
+# Keep apt cache
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
+# Install Python 3.10.6 (do we need this?)
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    apt-get update && apt-get upgrade -y && apt-get install -y \
-    software-properties-common && \
-    add-apt-repository ppa:deadsnakes/ppa && \
-    apt install python3.10
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && \
+    apt-get upgrade -y && \
     apt-get install -y \
-    git wget build-essential \
-    python3-venv python3-pip \
+    git wget \
+    software-properties-common \
+    build-essential \
+    libbz2-dev libncurses5-dev liblzma-dev zlib1g-dev libsqlite3-dev \
+    tk-dev tcl-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev \
     gnupg ca-certificates \
     && update-ca-certificates
 
+# Build and update Python to 3.10.9
+ADD https://www.python.org/ftp/python/3.10.9/Python-3.10.9.tgz /tmp
+RUN cd /tmp && \
+    tar -zxvf Python-3.10.*.tgz && \
+    cd "Python-3.10.9" && \
+    ./configure --enable-optimizations && \
+    make -j $(nproc) && \
+    make altinstall
 
+# Create Main Virtual Environment and Install Dependencies
 ARG MAIN_VENV_PATH=/workspace/venv
-
-
 ADD root_requirements.txt /workspace
 RUN --mount=type=cache,target=/root/.cache/pip \
-    python3 -m venv ${MAIN_VENV_PATH}
+    python3.10 -m venv ${MAIN_VENV_PATH}
 RUN source ${MAIN_VENV_PATH}/bin/activate && \
-    pip install -U -I torch==1.13.1+cu117 torchvision==0.14.1+cu117 --extra-index-url "https://download.pytorch.org/whl/cu117" && \
-    pip install -r root_requirements.txt && \
-    pip install --pre --no-deps xformers==0.0.17.dev476 && deactivate
-#    In case of emergency, build xformers from scratch
-#    export FORCE_CUDA=1 && export TORCH_CUDA_ARCH_LIST="7.5;8.0;8.6" && export CUDA_VISIBLE_DEVICES=0 && \
-#    pip install --no-deps git+https://github.com/facebookresearch/xformers.git@48a77cc#egg=xformers
+    pip install --upgrade pip && \
+    pip install -U -I torch torchvision --extra-index-url "https://download.pytorch.org/whl/cu118" && \
+    pip install --pre --no-deps xformers && \
+    pip install -r root_requirements.txt && deactivate
 
-RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /workspace/stable-diffusion-webui
-RUN git clone https://github.com/d8ahazard/sd_dreambooth_extension.git /workspace/stable-diffusion-webui/extensions/sd_dreambooth_extension
+
+# Install Stable-Diffusion WebUI and Dreambooth Extension
 ARG SDUI_VENV_PATH=/workspace/stable-diffusion-webui/venv
+RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /workspace/stable-diffusion-webui
 
 COPY requirements.txt /workspace/stable-diffusion-webui/requirements.txt
 COPY requirements_versions.txt /workspace/stable-diffusion-webui/requirements_versions.txt
 WORKDIR /workspace/stable-diffusion-webui
 COPY install-webui.py ./install.py
-ENV REQS_FILE /workspace/stable-diffusion-webui/extensions/sd_dreambooth_extension/requirements.txt 
+# ENV REQS_FILE /workspace/stable-diffusion-webui/extensions/sd_dreambooth_extension/requirements.txt 
 RUN --mount=type=cache,target=/root/.cache/pip \
-    python3 -m venv ${SDUI_VENV_PATH} && source ${SDUI_VENV_PATH}/bin/activate && \ 
+    python3.10 -m venv ${SDUI_VENV_PATH} && source ${SDUI_VENV_PATH}/bin/activate && \
+    pip install --upgrade pip && \
+    pip install -U -I torch torchvision --extra-index-url "https://download.pytorch.org/whl/cu118" && \
+    pip install --pre --no-deps xformers && \
     python -m install --skip-torch-cuda-test && deactivate
 
 
-###################
+##########################################################################################
 # Runtime Stage
-FROM ${RUNTIME_IMAGE_CU} as runtime
+FROM ${RUNTIME_IMAGE} as runtime
 ARG MAIN_VENV_PATH=/workspace/venv
 ARG SDUI_VENV_PATH=/workspace/stable-diffusion-webui/venv
 
@@ -74,6 +83,7 @@ ENV PYTHONUNBUFFERED=1
 # Don't write .pyc bytecode
 ENV PYTHONDONTWRITEBYTECODE=1
 
+# Install Dependencies
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
@@ -88,6 +98,12 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     rm -rf /var/lib/apt/lists/* && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 
+# Update Python to 3.10.9
+COPY --from=builder /tmp/Python-3.10.9 /tmp/Python-3.10.9
+RUN cd /tmp && \
+    cd "Python-3.10.9" && \
+    make altinstall
+
 # Install runpodctl
 RUN wget https://github.com/runpod/runpodctl/releases/download/v1.9.0/runpodctl-linux-amd -O runpodctl && \
     chmod a+x runpodctl && \
@@ -99,19 +115,21 @@ COPY --from=builder ${MAIN_VENV_PATH} ${MAIN_VENV_PATH}
 # Workaround for:
 #   https://github.com/TimDettmers/bitsandbytes/issues/62
 #   https://github.com/TimDettmers/bitsandbytes/issues/73
-ENV LD_LIBRARY_PATH="/usr/local/cuda-11.7/targets/x86_64-linux/lib"
-RUN ln /usr/local/cuda-11.7/targets/x86_64-linux/lib/libcudart.so.11.0 /usr/local/cuda-11.7/targets/x86_64-linux/lib/libcudart.so
+ENV LD_LIBRARY_PATH="/usr/local/cuda-11.8/targets/x86_64-linux/lib"
+RUN ln /usr/local/cuda-11.8/targets/x86_64-linux/lib/libcudart.so.11.0 /usr/local/cuda-11.8/targets/x86_64-linux/lib/libcudart.so
 RUN git clone https://github.com/victorchall/EveryDream2trainer /workspace/EveryDream2trainer
-WORKDIR /workspace/EveryDream2trainer
 
+WORKDIR /workspace/EveryDream2trainer
 RUN source ${MAIN_VENV_PATH}/bin/activate && \
+    pip install --upgrade pip && \
     pip install bitsandbytes==0.37.0 && \ 
     python utils/get_yamls.py && \
     mkdir -p logs && mkdir -p input && \
     deactivate
 
-## lets do SDUI
-RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /workspace/stable-diffusion-webui && \
+## lets do SDUI now
+RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /workspace/stable-diffusion-webui && cd /workspace/stable-diffusion-webui && \
+    git checkout a9fed7c3 && \
     git clone https://github.com/camenduru/sd-civitai-browser.git /workspace/stable-diffusion-webui/extensions/sd-civitai-browser && \
     git clone https://github.com/adieyal/sd-dynamic-prompts.git /workspace/stable-diffusion-webui/extensions/sd-dynamic-prompts && \
     git clone https://github.com/kohya-ss/sd-webui-additional-networks.git /workspace/stable-diffusion-webui/extensions/sd-webui-additional-networks && \
@@ -121,15 +139,21 @@ RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /works
     git clone https://github.com/AlUlkesh/stable-diffusion-webui-images-browser.git /workspace/stable-diffusion-webui/extensions/stable-diffusion-webui-images-browser 
 
 COPY --from=builder ${SDUI_VENV_PATH} ${SDUI_VENV_PATH}
+COPY --from=builder /workspace/stable-diffusion-webui/repositories /workspace/stable-diffusion-webui/repositories
 RUN mkdir -p /workspace/local_ckpts && mkdir -p /workspace/outputs && \
     ln -s /workspace/local_ckpts /workspace/stable-diffusion-webui/models/Stable-diffusion && \
     ln -s /workspace/outputs /workspace/stable-diffusion-webui/outputs
 
+RUN python3.10 -m venv ${SDUI_VENV_PATH} && source ${SDUI_VENV_PATH}/bin/activate && \
+    pip install --upgrade pip && \
+    pip install -r /workspace/stable-diffusion-webui/extensions/sd_dreambooth_extension/requirements.txt && \
+    deactivate
+
 COPY webui-user.sh /workspace/stable-diffusion-webui/webui-user.sh
 COPY config.json /workspace/stable-diffusion-webui/config.json
 COPY ui-config.json /workspace/stable-diffusion-webui/ui-config.json
-COPY requirements.txt /workspace/stable-diffusion-webui/requirements.txt
-COPY requirements_versions.txt /workspace/stable-diffusion-webui/requirements_versions.txt
+# COPY requirements.txt /workspace/stable-diffusion-webui/requirements.txt
+# COPY requirements_versions.txt /workspace/stable-diffusion-webui/requirements_versions.txt
 COPY relauncher-webui.py /workspace/stable-diffusion-webui/relauncher.py
 
 ADD start.sh /
