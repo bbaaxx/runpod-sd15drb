@@ -1,7 +1,7 @@
 # Template to buld a Docker container with a Stable Difussion webui work environment for training/refining models
 Designed to work on Runpod.io but it should run elsewhere with little-to-none customization.
 
-## UPDATED (March 25) - Torch2 and Xformers update + v-1_5-vae (checkpoint) and mse-840000 (vae) included
+## UPDATED (March 25) - v-1_5-vae (checkpoint) and mse-840000 (vae) included
 
 ### NOTE: YOUR JUPYTER PASSWORD IS PROVIDED ON THE `JUPYTER_PASSWORD` ENV (if running on runpod check your pod settings).
 
