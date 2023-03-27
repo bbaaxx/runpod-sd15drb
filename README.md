@@ -8,7 +8,7 @@ Designed to work on Runpod.io but it should run elsewhere with little-to-none cu
 ## What's in the box?
 - Nvidia CUDA 11.8 devel image on Ubuntu 22.04 (minified but with some base tools added)
 - Switch between A111 webui and InvokeAI (WIP)
-- Dreamboot extension working with torch 2 and xformers
+- Dreambooth
 - DreamTrain 2 ready to use
 - Tensorboard
 - Other useful extensions
